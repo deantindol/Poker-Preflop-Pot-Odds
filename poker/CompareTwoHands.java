@@ -19,6 +19,7 @@ public class CompareTwoHands extends HandEvaluation {
     //ArrayList of the indicies of the unknown cards from 1-52.
     //Does not contain the four cards held by players.
     static ArrayList<Integer> fe = new ArrayList<Integer>();
+    static ArrayList<Card> possibleTableCards = new ArrayList<Card>();
     
     
     static int rf1 = 0;
@@ -42,6 +43,13 @@ public class CompareTwoHands extends HandEvaluation {
     static int tp2 = 0;
     static int pair2 = 0;
     static int hc2 =0;
+    
+    static Card one;
+    static Card two;
+    static Card three;
+    static Card four;
+    static Card five;
+
     
     
 	public static int whoWins(Card[] player1, Card[] player2, Card[] table) {
@@ -185,17 +193,13 @@ public class CompareTwoHands extends HandEvaluation {
 				int p1 = player1BestFive.get(4).getIndexNumber();
 				int p2 = player2BestFive.get(4).getIndexNumber();
 				if (p1 > p2) {
-					System.out.println("Player 1 wins with a higher straight flush!");
 					return 91;
 				} else if (p2 > p1) {
-					System.out.println("Player 2 wins with a higher straight flush!");
 					return 92;
 				} else if (p1 == p2){
-					System.out.println("Push: Tied for same straight flush");
 					return 3;
 				}
 			case 10:
-				System.out.println("Push: Royal Flush on the table");
 				return 3;
 			case 8:
 				int quadsp1 = player1BestFive.get(0).getIndexNumber();
@@ -209,13 +213,10 @@ public class CompareTwoHands extends HandEvaluation {
 				int fifth1 = player1BestFive.get(4).getIndexNumber();
 				int fifth2 = player2BestFive.get(4).getIndexNumber();
 				if (fifth1 > fifth2) {
-					System.out.println("Player 1 wins with quads kicker!");
 					return 81;
 				} else if (fifth2 > fifth1) {
-					System.out.println("Player 2 wins with quads kicker!");
 					return 82;	
 				} else if (fifth1 == fifth2){
-					System.out.println("PUSH: Tied for same quads + kicker");
 					return 3;
 				}
 			case 7:
@@ -224,144 +225,103 @@ public class CompareTwoHands extends HandEvaluation {
 				int p23 = player2BestFive.get(0).getIndexNumber();
 				int p22 = player2BestFive.get(3).getIndexNumber();
 				if (p13 > p23) {
-					System.out.println("Player 1 wins with better full house");
 					return 71;
 				} else if (p23 > p13) {
-					System.out.println("Player 2 wins with better full house");
 					return 72;
 				} else if (p12 > p22) {
-					System.out.println("Player 1 wins with better full house");
 					return 71;
 				} else if (p22 > p12) {
-					System.out.println("Player 2 wins with better full house");
 					return 72;
 				} else if (p13 == p23 && p12 == p22){
-					System.out.println("Push: Tied for same full house.");
 					return 3;
 				}
 			case 6:
 				if (player1BestFive.get(0).getIndexNumber() > player2BestFive.get(0).getIndexNumber()) {
-					System.out.println("Player 1 wins with a better flush");
 					return 61;
 				} else if (player2BestFive.get(0).getIndexNumber() > player1BestFive.get(0).getIndexNumber()) {
-					System.out.println("Player 2 wins with a better flush");
 					return 62;
 				} else if (player1BestFive.get(1).getIndexNumber() > player2BestFive.get(1).getIndexNumber()) {
-					System.out.println("Player 1 wins with a better flush");
 					return 61;
 				} else if (player2BestFive.get(1).getIndexNumber() > player1BestFive.get(1).getIndexNumber()) {
-					System.out.println("Player 2 wins with a better flush");
 					return 62;
 				} else if (player1BestFive.get(2).getIndexNumber() > player2BestFive.get(2).getIndexNumber()) {
-					System.out.println("Player 1 wins with a better flush");
 					return 61;
 				} else if (player2BestFive.get(2).getIndexNumber() > player1BestFive.get(2).getIndexNumber()) {
-					System.out.println("Player 2 wins with a better flush");
 					return 62;
 				} else if (player1BestFive.get(3).getIndexNumber() > player2BestFive.get(3).getIndexNumber()) {
-					System.out.println("Player 1 wins with a better flush");
 					return 61;
 				} else if (player2BestFive.get(3).getIndexNumber() > player1BestFive.get(3).getIndexNumber()) {
-					System.out.println("Player 2 wins with a better flush");
 					return 62;
 				} else if (player1BestFive.get(4).getIndexNumber() > player2BestFive.get(4).getIndexNumber()) {
-					System.out.println("Player 1 wins with a better flush");
 					return 61;
 				} else if (player2BestFive.get(4).getIndexNumber() > player1BestFive.get(4).getIndexNumber()) {
-					System.out.println("Player 2 wins with a better flush");
 					return 62;
 				} else {
-					System.out.println("PUSH: tied for the same flush");
 					return 3;
 				}
 			case 5: 
 				if (player1BestFive.get(0).getIndexNumber() > player2BestFive.get(0).getIndexNumber()) {
-					System.out.println("Player 1 wins with better straight");
 					return 51;
 				} else if (player2BestFive.get(0).getIndexNumber() > player1BestFive.get(0).getIndexNumber()) {
-					System.out.println("Player 2 wins with better straight");
 					return 52;
 				} else {
-					System.out.println("PUSH: tied for same straight");
 					return 3;
 				}
 			case 4:
 				if (player1BestFive.get(0).getIndexNumber() > player2BestFive.get(0).getIndexNumber()) {
-					System.out.println("Player 1 wins with better trips");
 					return 41;
 				} else if (player1BestFive.get(0).getIndexNumber() < player2BestFive.get(0).getIndexNumber()) {
-					System.out.println("Player 2 wins with better trips");
 					return 42;
 				} else if (player1BestFive.get(3).getIndexNumber() > player2BestFive.get(3).getIndexNumber()) {
-					System.out.println("Player 1 wins with better trips kicker");
 					return 41;
 				} else if (player1BestFive.get(3).getIndexNumber() < player2BestFive.get(3).getIndexNumber()) {
-					System.out.println("Player 2 wins with better trips kicker");
 					return 42;
 				} else if (player1BestFive.get(4).getIndexNumber() > player2BestFive.get(4).getIndexNumber()) {
-					System.out.println("Player 1 wins with better trips kicker");
 					return 41;
 				} else if (player1BestFive.get(4).getIndexNumber() < player2BestFive.get(4).getIndexNumber()) {
-					System.out.println("Player 2 wins with better trips kicker");
 					return 42;
 				} else {
-					System.out.println("PUSH: tied for same trips and kicker");
 					return 3;
 				}
 			case 3:
 				if (player1BestFive.get(0).getIndexNumber() > player2BestFive.get(0).getIndexNumber()) {
-					System.out.println("Player 1 wins with better two pair");
 					return 31;
 				} else if (player1BestFive.get(0).getIndexNumber() < player2BestFive.get(0).getIndexNumber()) {
-					System.out.println("Player 2 wins with better two pair");
 					return 32;
 				} else if (player1BestFive.get(2).getIndexNumber() > player2BestFive.get(2).getIndexNumber()) {
-					System.out.println("Player 1 wins with better two pair");
 					return 31;
 				} else if (player1BestFive.get(2).getIndexNumber() < player2BestFive.get(2).getIndexNumber()) {
-					System.out.println("Player 2 wins with better two pair");
 					return 32;
 				} else if (player1BestFive.get(4).getIndexNumber() > player2BestFive.get(4).getIndexNumber()) {
-					System.out.println("Player 1 wins with better two pair kicker");
 					return 31;
 				} else if (player1BestFive.get(4).getIndexNumber() < player2BestFive.get(4).getIndexNumber()) {
-					System.out.println("Player 2 wins with better two pair kicker");
 					return 32;
 				} else {
-					System.out.println("PUSH: tied for same trips and kicker");
 					return 3;
 				}
 			case 2:
 				for (int i = 0; i < 5 ; i++) {
 					if (player1BestFive.get(i).getIndexNumber() > player2BestFive.get(i).getIndexNumber()) {
 						if (i == 0) {
-							System.out.println("Player 1 wins with better pair");
 						} else {
-							System.out.println("Player 1 wins with better pair kicker");
 						}
 						return 21;
 					} else if (player1BestFive.get(i).getIndexNumber() < player2BestFive.get(i).getIndexNumber()) {
 						if (i == 0) {
-							System.out.println("Player 2 wins with better pair");
 						} else {
-							System.out.println("Player 2 wins with better pair kicker");
 						}
 						return 22;
 					}
 				}
-				System.out.println("PUSH: tied for same pair + kickers");
 				return 3;
 			case 1:
 				for (int i = 0; i < 5; i++) {
 					if (player1BestFive.get(i).getIndexNumber() > player2BestFive.get(i).getIndexNumber()) {
-						System.out.println("Player 1 wins with high card");
 						return 11;
 					} else if (player1BestFive.get(i).getIndexNumber() < player2BestFive.get(i).getIndexNumber()) {
-						System.out.println("Player 2 wins with high card");
 						return 12;
 					}
 				}
-				System.out.println("PUSH: tied for same high card + kickers");
 				return 3;
 		}
 		//This doesn't get called. Just there to satisfy return requirements.
@@ -375,19 +335,15 @@ public class CompareTwoHands extends HandEvaluation {
         if (k == 0) {
             ans.add(tmp);
             
-            Card one = new Card(fe.get(tmp.get(0) - 1));
-            Card two = new Card(fe.get(tmp.get(1) - 1));
-            Card three = new Card(fe.get(tmp.get(2) - 1));
-            Card four = new Card(fe.get(tmp.get(3) - 1));
-            Card five = new Card(fe.get(tmp.get(4) -1 ));
+            Card one = possibleTableCards.get(tmp.get(0) - 1);
+            Card two = possibleTableCards.get(tmp.get(1) - 1);
+            Card three = possibleTableCards.get(tmp.get(2) - 1);
+            Card four = possibleTableCards.get(tmp.get(3) - 1);
+            Card five = possibleTableCards.get(tmp.get(4) - 1);
             
             Card[] tab = {one, two, three, four, five};
             
             int res = whoWins(p1, p2, tab);
-            if (res == 3 && pushes > 1100 && pushes <=1600) {
-        		pushTest += (tab[0]+"\t"+tab[1]+"\t"+tab[2]+"\t"+tab[3]+"\t"+tab[4]+"\n");
-
-            }
             if (res == 3) {
             	pushes++;
             } else if (res % 2 == 1) {
@@ -477,12 +433,9 @@ public class CompareTwoHands extends HandEvaluation {
     	fe.remove(fe.indexOf(pl2[0].getoft())+1);
     	fe.remove(fe.indexOf(pl2[1].getoft())+1);
     	
-    	for(int i:fe) {
-    		System.out.print(i+":\t");
-    		Card a = new Card(i);
-    		System.out.println(a);
+    	for (int x : fe) {
+    		possibleTableCards.add(new Card(x));
     	}
-    	
     	
     	makeCombiN(48,5);
     	
@@ -503,7 +456,7 @@ public class CompareTwoHands extends HandEvaluation {
 
     	
 
-    	System.out.println("P1  :  P2");
+    	System.out.println("P1\t:\tP2");
     	System.out.println(rf1+" \tRF\t"+rf2);
     	System.out.println(sf1+" \tSF\t"+sf2);
     	System.out.println(q1+" \tQ \t"+q2);
@@ -524,9 +477,7 @@ public class CompareTwoHands extends HandEvaluation {
 		Card[] pone = {a,b};
 		Card[] ptwo = {c,d};
 		onevone(pone,ptwo);
-		
-		//System.out.println(pushTest);
-		
+				
 	}
 	
 	

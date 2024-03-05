@@ -138,7 +138,6 @@ public class Card {
 		}
 		throw new IllegalArgumentException("indexToShown: error");
 	}
-	
 	/**
 	 * Returns a String representation of the Card object in the format 'Ace of Spades' and '7 of Diamonds'.
 	 * @return a String representation of the Card object.

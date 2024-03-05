@@ -490,10 +490,7 @@ public class HandEvaluation {
      	return copy;
     	
     }
-    public static void main(String[] args) {
-    	Card x = new Card("5 of diamonds");
-    	System.out.println(x.getIndexNumber());
-    }
+  
     
     public static int getNumOfSuit(String suit, Card[] cards) {
     	int count = 0;
