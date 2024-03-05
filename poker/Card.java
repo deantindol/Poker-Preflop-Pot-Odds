@@ -1,8 +1,12 @@
-package pokerpotodds;
+package poker;
 
+/**
+ * Represents a standard playing card. Holds information about the card's suit and rank.
+ */
 public class Card {
 	private int indexNumber;
 	private String suit;
+	//Index from one to 52. Created in order to be able to track known cards for deriving odds.
 	private int oft;
 	
 	public Card(int x) {
@@ -12,7 +16,7 @@ public class Card {
 			oft = x;
 			indexNumber = (x - 1) % 13;
 			int suitRange = (x - 1) / 13;
-			switch(suitRange) {
+			switch (suitRange) {
 			case 0 : 
 				suit = "Clubs";
 				break;	

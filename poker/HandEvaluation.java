@@ -1,49 +1,13 @@
-package pokerpotodds;
+package poker;
 
 import java.util.*;
-import pokerpotodds.checkResult.classification;
+import poker.checkResult.classification;
 
-public class Game {
-	static Vector<Vector<Integer>> ans = new Vector<Vector<Integer>>();
-    static Vector<Integer> tmp = new Vector<Integer>();
-	static void makeCombiUtil(int n, int left, int k)
-    {
-       
-        // Pushing this vector to a vector of vector
-        if (k == 0) {
-            ans.add(tmp);
-            for(int i = 0; i < tmp.size(); i++)
-            {
-                System.out.print(tmp.get(i) + " ");
-            }
-            System.out.println();
-            return;
-        }
-  
-        // i iterates from left to n. First time
-        // left will be 1
-        for (int i = left; i <= n; ++i)
-        {
-            tmp.add(i);
-            makeCombiUtil(n, i + 1, k - 1);
-  
-            // Popping out last inserted element
-            // from the vector
-            tmp.remove(tmp.size() - 1);
-        }
-    }
-	
-    // Prints all combinations of size k of numbers
-    // from 1 to n.
-    static Vector<Vector<Integer>> makeCombi(int n, int k)
-    {
-        makeCombiUtil(n, 1, k);
-        return ans;
-    }
+public class HandEvaluation {
     
     public static checkResult royalFlush(Card[] seven) {
     	if (straightFlush(seven).getHandClassification() == classification.STRAIGHTFLUSH) {
-    		if (straightFlush(seven).getBestFive().get(4).getIndexNumber()==12) {
+    		if (straightFlush(seven).getBestFive().get(4).getIndexNumber() == 2) {
     			return new checkResult(straightFlush(seven).getBestFive(), classification.ROYALFLUSH);
     		}
     	}
@@ -121,30 +85,7 @@ public class Game {
     	checkResult build = new checkResult();
     	return build;
     }
-    public static boolean isFlush(Card[] seven) {
-    	checkResult x;
-    	x = flush(seven);
-    	if (x.getHandClassification().equals(classification.FLUSH)) {
-    		return true;
-    	}
-    	return false;
-    }
-    public static boolean isPair(Card[] seven) {
-    	checkResult x;
-    	x=pair(seven);
-    		if (x.getHandClassification().equals(classification.PAIR)) {
-    			return true;
-    	}
-    		return false;
-    }
-    public static boolean isStraight(Card[] seven) {
-    	checkResult x;
-    	x = straight(seven);
-    	if (x.getHandClassification().equals(classification.STRAIGHT)) {
-    		return true;
-    	}
-    	return false;
-    }
+    
     public static checkResult straight (Card[] seven) {
     	ArrayList<Card> copy = new ArrayList<Card>();
     	for (Card x : seven) {
@@ -522,12 +463,6 @@ public class Game {
 
     }
     
-    
-    
-    
-    
-    
-    
     public static ArrayList<Card> order(ArrayList<Card> r) {
     	ArrayList<Card> copy = r;
      	int n = r.size();
@@ -545,10 +480,6 @@ public class Game {
      	return copy;
     	
     }
-	public static void main(String[] args) {
-		makeCombi(48,5);
-	}
 	
-	
-	}
+}
 

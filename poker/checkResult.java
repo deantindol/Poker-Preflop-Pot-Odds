@@ -1,4 +1,4 @@
-package pokerpotodds;
+package poker;
 
 import java.util.ArrayList;
 public class checkResult{
