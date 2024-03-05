@@ -1,3 +1,4 @@
-This is still a work in progress.
-To find the probability of each player winning a poker hand pre-flop with no others cards known,
-call the onevone method in the PokahDriver class.
+This is still a work in progress. 
+Documentation is unfinished and more optimization is to come.
+Runs on my M2 Mac in 7 seconds so slower processors might take longer. 
+To run the program, look into the main method of CompareTwoHands and change the cards.
