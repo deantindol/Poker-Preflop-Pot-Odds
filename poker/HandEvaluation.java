@@ -3,11 +3,14 @@ package poker;
 import java.util.*;
 import poker.checkResult.classification;
 
+/**
+ * Holds methods that check a hand for a specific hand rank. These methods return a {@code checkResult} object.
+ */
 public class HandEvaluation {
     
     public static checkResult royalFlush(Card[] seven) {
     	if (straightFlush(seven).getHandClassification() == classification.STRAIGHTFLUSH) {
-    		if (straightFlush(seven).getBestFive().get(4).getIndexNumber() == 2) {
+    		if (straightFlush(seven).getBestFive().get(4).getIndexNumber() == 12) {
     			return new checkResult(straightFlush(seven).getBestFive(), classification.ROYALFLUSH);
     		}
     	}
@@ -16,10 +19,14 @@ public class HandEvaluation {
     
     /**
      * Checks to see if the Card[] contains a flush.
-     * @param seven the Card[] that is checked to be a flush
+     * @param seven the Card[] that is checked to be a flush. 
      * @return checkResult the checkResult object with best five card hand and hand classification. classification is null if not a flush
+     * @throws IllegalArgumentException if the Card[] is not length seven.
      */
     public static checkResult flush(Card[] seven) {
+    	if (seven.length != 7) {
+    		throw new IllegalArgumentException("The Card[] passed to this method must be length 7");
+    	}
     	int spade = 0; 
     	int heart = 0; 
     	int diamond = 0;
@@ -62,7 +69,7 @@ public class HandEvaluation {
     			}
     		}
     	}
-    	if (suited.size()>4) {
+    	if (suited.size() > 4) {
     		int highest = -1;
     		int index = 0;
     		for (int i = 0 ; i < 5 ; i++) {
@@ -96,12 +103,11 @@ public class HandEvaluation {
     		indicies.add(x.getIndexNumber());
     	}
     	ArrayList<Card> build = new ArrayList<Card>();
-    	copy = order(copy);
 		Card one = new Card(); Card two = new Card(); Card three = new Card(); Card four = new Card(); Card five = new Card();
 
-    	for (int i = 0 ; i < seven.length - 4 ; i++) {
-    		for (int j = i ; j < i + 5; j++) {
-    			int f = indicies.get(j);
+    	for (int i = 0 ; i < seven.length; i++) {
+    		if (true) {
+    			int f = indicies.get(i);
     			if (f==0 && indicies.contains(12) && indicies.contains(1) && indicies.contains(2) && indicies.contains(3)) {
     				for (int k = 0 ; k < copy.size(); k++) {
     					if (copy.get(k).getIndexNumber() == 12) {
@@ -109,7 +115,7 @@ public class HandEvaluation {
     					}
     					else if (copy.get(k).getIndexNumber()== f) {
     						two = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f+1) {
+    					} else if (copy.get(k).getIndexNumber()==f + 1) {
     						three = copy.get(k);
     					} else if (copy.get(k).getIndexNumber()==f + 2) {
     						four = copy.get(k);
@@ -118,28 +124,38 @@ public class HandEvaluation {
     					}
     					
     				}
-    				build.clear();
-    				build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
+    				if (build.size() > 0 && build.get(4).getIndexNumber() < five.getIndexNumber()) {
+    					build.clear();
+    					build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
+    				} else if( build.size() == 0) {
+    					build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
+
+    				}
     				
     			}
-    			if (indicies.contains(f+1) && indicies.contains(f+2) && indicies.contains(f+3) && indicies.contains(f+4)) {
+    			if (indicies.contains(f + 1) && indicies.contains(f + 2) && indicies.contains(f + 3) && indicies.contains(f + 4)) {
     				for (int k = 0 ; k < copy.size(); k++) {
     					if (copy.get(k).getIndexNumber() == f) {
     						one = copy.get(k);
     					}
     					else if (copy.get(k).getIndexNumber()== f + 1) {
     						two = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f+2) {
+    					} else if (copy.get(k).getIndexNumber()==f + 2) {
     						three = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f+3) {
+    					} else if (copy.get(k).getIndexNumber()==f + 3) {
     						four = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f+4) {
+    					} else if (copy.get(k).getIndexNumber()==f + 4) {
     						five = copy.get(k);
     					}
     					
     				}
-    				build.clear();
-    				build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
+    				if (build.size() > 0 && build.get(4).getIndexNumber() < five.getIndexNumber()) {
+    					build.clear();
+    					build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
+    				} else if( build.size() == 0) {
+    					build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
+
+    				}
     			}
     		}
     	}
@@ -356,76 +372,70 @@ public class HandEvaluation {
     }
     
     public static checkResult straightFlush(Card[] seven) {
-    	ArrayList<Card> diamonds = new ArrayList<Card>();
-    	ArrayList<Card> clubs = new ArrayList<Card>();
-    	ArrayList<Card> spades = new ArrayList<Card>();
-    	ArrayList<Card> hearts = new ArrayList<Card>();
+    	ArrayList<Card> copy = new ArrayList<Card>();
     	for (Card x : seven) {
-    		if (x.getSuit() == "Spades") {
-    			spades.add(x);
-    		} else if (x.getSuit() == "Hearts") {
-    			hearts.add(x);
-    		} else if (x.getSuit() == "Clubs") {
-    			clubs.add(x);
-    		} else if (x.getSuit() == "Diamonds") {
-    			diamonds.add(x);
+    		copy.add(x);
+    	}
+    	copy = order(copy);
+    	int d = getNumOfSuit("Diamonds", seven);
+    	int s = getNumOfSuit("Spades", seven);
+    	int c = getNumOfSuit("Clubs", seven);
+    	int h = getNumOfSuit("Hearts", seven);
+    	if (d > 4) {
+    		Card[] build = new Card[d];
+    		int index = 0;
+    		for (Card x : seven) {
+    			if (x.getSuit().equals("Diamonds")) {
+    				build[index] = x;
+    				index++;
+    			}
+    		}
+    		if(straight(build).getHandClassification()==classification.STRAIGHT) {
+    			return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
     		}
     	}
-    	if (diamonds.size() > 4) {
-    		Card[] d = new Card[diamonds.size()];
+    	if (s > 4) {
+    		Card[] build = new Card[s];
     		int index = 0;
-    		diamonds = order(diamonds);
-    		for (Card x : diamonds) {
-    			d[index] = x;
-    			index++;
+    		for (Card x : seven) {
+    			if (x.getSuit().equals("Spades")) {
+    				build[index] = x;
+    				index++;
+    			}
     		}
-    		checkResult x = straight(d);
-    		if (x.getHandClassification()==classification.STRAIGHT) {
-    			return new checkResult(x.getBestFive(), classification.STRAIGHTFLUSH);
+    		if(straight(build).getHandClassification()==classification.STRAIGHT) {
+    			return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
     		}
-    		else return new checkResult(null, null);
-    		
-    	} else if (clubs.size() > 4) {
-    		Card[] d = new Card[clubs.size()];
-    		int index = 0;
-    		clubs = order(clubs);
-    		for (Card x : clubs) {
-    			d[index] = x;
-    			index++;
-    		}
-    		checkResult x = straight(d);
-    		if (x.getHandClassification()==classification.STRAIGHT) {
-    			return new checkResult(x.getBestFive(), classification.STRAIGHTFLUSH);
-    		}
-    		else return new checkResult(null, null);
-    	} else if (spades.size() > 4) {
-    		Card[] d = new Card[spades.size()];
-    		int index = 0;
-    		for (Card x : spades) {
-    			d[index] = x;
-    			index++;
-    		}
-    		checkResult x = straight(d);
-    		if (x.getHandClassification()==classification.STRAIGHT) {
-    			return new checkResult(x.getBestFive(), classification.STRAIGHTFLUSH);
-    		}
-    		else return new checkResult(null, null);
-    		
-    	} else if (hearts.size() > 4) {
-    		Card[] d = new Card[hearts.size()];
-    		int index = 0;
-    		for (Card x : hearts) {
-    			d[index] = x;
-    			index++;
-    		}
-    		checkResult x = straight(d);
-    		if (x.getHandClassification()==classification.STRAIGHT) {
-    			return new checkResult(x.getBestFive(), classification.STRAIGHTFLUSH);
-    		}
-    		else return new checkResult(null, null);
     	}
-    	return new checkResult(null, null);
-
+    	if (c > 4) {
+    		Card[] build = new Card[c];
+    		int index = 0;
+    		for (Card x : seven) {
+    			if (x.getSuit().equals("Clubs")) {
+    				build[index] = x;
+    				index++;
+    			}
+    		}
+    		if(straight(build).getHandClassification()==classification.STRAIGHT) {
+    			return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
+    		}
+    	}
+    	if (h > 4) {
+    		Card[] build = new Card[h];
+    		int index = 0;
+    		for (Card x : seven) {
+    			if (x.getSuit().equals("Hearts")) {
+    				build[index] = x;
+    				index++;
+    			}
+    		}
+    		if(straight(build).getHandClassification()==classification.STRAIGHT) {
+    			return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
+    		}
+    	}
+    	return new checkResult();
+    	
+    	
     }
     
     
@@ -479,6 +489,20 @@ public class HandEvaluation {
      	}
      	return copy;
     	
+    }
+    public static void main(String[] args) {
+    	Card x = new Card("5 of diamonds");
+    	System.out.println(x.getIndexNumber());
+    }
+    
+    public static int getNumOfSuit(String suit, Card[] cards) {
+    	int count = 0;
+    	for (Card x : cards) {
+    		if (x.getSuit().equals(suit)) {
+    			count++;
+    		}
+    	}
+    	return count;
     }
 	
 }

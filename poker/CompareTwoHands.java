@@ -8,6 +8,8 @@ public class CompareTwoHands extends HandEvaluation {
 	static Vector<Vector<Integer>> ans = new Vector<Vector<Integer>>();
     static Vector<Integer> tmp = new Vector<Integer>();
     
+    static String pushTest ="";
+    
     static int p1Wins;
     static int p2Wins;
     static int pushes;
@@ -64,7 +66,7 @@ public class CompareTwoHands extends HandEvaluation {
 		
 		
 		
-
+		
 		if (royalFlush(player1Full).getHandClassification()==classification.ROYALFLUSH) {
 			player1HandRank = 10;
 			player1BestFive = royalFlush(player1Full).getBestFive();
@@ -208,10 +210,10 @@ public class CompareTwoHands extends HandEvaluation {
 				int fifth2 = player2BestFive.get(4).getIndexNumber();
 				if (fifth1 > fifth2) {
 					System.out.println("Player 1 wins with quads kicker!");
-					return 1;
+					return 81;
 				} else if (fifth2 > fifth1) {
 					System.out.println("Player 2 wins with quads kicker!");
-					return 2;	
+					return 82;	
 				} else if (fifth1 == fifth2){
 					System.out.println("PUSH: Tied for same quads + kicker");
 					return 3;
@@ -368,20 +370,24 @@ public class CompareTwoHands extends HandEvaluation {
 	
 	static void makeCombiUtil(int n, int left, int k)
     {
-       
+		
         // Pushing this vector to a vector of vector
         if (k == 0) {
             ans.add(tmp);
             
             Card one = new Card(fe.get(tmp.get(0) - 1));
-            Card two = new Card(fe.get(tmp.get(1) -1));
-            Card three = new Card(fe.get(tmp.get(2)-1));
-            Card four = new Card(fe.get(tmp.get(3)-1));
-            Card five = new Card(fe.get(tmp.get(4)-1));
+            Card two = new Card(fe.get(tmp.get(1) - 1));
+            Card three = new Card(fe.get(tmp.get(2) - 1));
+            Card four = new Card(fe.get(tmp.get(3) - 1));
+            Card five = new Card(fe.get(tmp.get(4) -1 ));
             
             Card[] tab = {one, two, three, four, five};
             
             int res = whoWins(p1, p2, tab);
+            if (res == 3 && pushes > 1100 && pushes <=1600) {
+        		pushTest += (tab[0]+"\t"+tab[1]+"\t"+tab[2]+"\t"+tab[3]+"\t"+tab[4]+"\n");
+
+            }
             if (res == 3) {
             	pushes++;
             } else if (res % 2 == 1) {
@@ -483,11 +489,11 @@ public class CompareTwoHands extends HandEvaluation {
     	System.out.println("For "+ pl1[0] + " and " + pl1[1] +" vs "+ pl2[0] +" and " + pl2[1]);
     	
     	System.out.print("Player one wins: ");
-    	System.out.printf("%.4f", ((double)p1Wins/1712304)*100);
+    	System.out.printf("%.2f", ((double)p1Wins/1712304)*100);
     	System.out.println("%");
     	
     	System.out.print("Player two wins: ");
-    	System.out.printf("%.4f", ((double)p2Wins/1712304)*100);
+    	System.out.printf("%.2f", ((double)p2Wins/1712304)*100);
     	System.out.println("%");
 
     	
@@ -511,14 +517,15 @@ public class CompareTwoHands extends HandEvaluation {
     }
 	
 	public static void main(String[] args) {
-		Card a = new Card("10 of spades");
-		Card b = new Card("5 of spades");
-		Card c = new Card("9 of spades");
+		Card a = new Card("King of spades");
+		Card b = new Card("6 of spades");
+		Card c = new Card("Ace of hearts");
 		Card d = new Card("6 of clubs");
 		Card[] pone = {a,b};
 		Card[] ptwo = {c,d};
 		onevone(pone,ptwo);
 		
+		//System.out.println(pushTest);
 		
 	}
 	
