@@ -43,42 +43,43 @@ public class Card {
 	 * @param s the name of the {@code Card} object to be created in the format 'Ace of spades' or '10 of clubs' with no whitespace following the suit.
 	 */
 	public Card(String s) {
-		String rankInput = s.substring(0,s.indexOf(" "));
-		String suitInput = s.substring(s.indexOf("of ") + 3);
-		if (rankInput.equalsIgnoreCase("Ace")) {
-			indexNumber = 12;
-		} else if (rankInput.equalsIgnoreCase("King")) {
-			indexNumber = 11;
-		} else if (rankInput.equalsIgnoreCase("Queen")) {
-			indexNumber = 10;
-		} else if (rankInput.equalsIgnoreCase("Jack")) {
-			indexNumber = 9;
-		}
-		else {
-			try {
+		try {
+			String rankInput = s.substring(0,s.indexOf(" "));
+			String suitInput = s.substring(s.indexOf("of ") + 3);
+			if (rankInput.equalsIgnoreCase("Ace")) {
+				indexNumber = 12;
+			} else if (rankInput.equalsIgnoreCase("King")) {
+				indexNumber = 11;
+			} else if (rankInput.equalsIgnoreCase("Queen")) {
+				indexNumber = 10;
+			} else if (rankInput.equalsIgnoreCase("Jack")) {
+				indexNumber = 9;
+			}
+			else {
 				int shownCardNumber = Integer.parseInt(rankInput);
 				if (shownCardNumber < 2 || shownCardNumber > 10) {
 					throw new IllegalArgumentException("Enter valid card in this format: 'Ace of Spades' or '10 of Clubs'.");
 				}
 				indexNumber = shownCardNumber - 2;
-			} catch (NumberFormatException ex) {
-				System.err.print("Enter valid card in this format: 'Ace of Spades' or '10 of Clubs'.");
 			}
-			
-		}
-		if (suitInput.equalsIgnoreCase("Clubs")) {
-			suit = "Clubs";
-			oft = indexNumber;
-		} else if (suitInput.equalsIgnoreCase("Diamonds")) {
-			suit = "Diamonds";
-			oft = 13 + indexNumber;
-		} else if (suitInput.equalsIgnoreCase("Hearts")) {
-			suit = "Hearts";
-			oft = 26 + indexNumber;
-		} else if (suitInput.equalsIgnoreCase("Spades")) {
-			suit = "Spades";
-			oft = 39 + indexNumber;
-		} else {
+			if (suitInput.equalsIgnoreCase("Clubs")) {
+				suit = "Clubs";
+				oft = indexNumber;
+			} else if (suitInput.equalsIgnoreCase("Diamonds")) {
+				suit = "Diamonds";
+				oft = 13 + indexNumber;
+			} else if (suitInput.equalsIgnoreCase("Hearts")) {
+				suit = "Hearts";
+				oft = 26 + indexNumber;
+			} else if (suitInput.equalsIgnoreCase("Spades")) {
+				suit = "Spades";
+				oft = 39 + indexNumber;
+			} else {
+				throw new IllegalArgumentException("Enter valid card in this format: 'Ace of Spades' or '10 of Clubs' with no white space following the suit.");
+			}
+		} catch (StringIndexOutOfBoundsException ex) {
+			throw new IllegalArgumentException("Enter valid card in this format: 'Ace of Spades' or '10 of Clubs' with no white space following the suit.");
+		} catch (NumberFormatException ex) {
 			throw new IllegalArgumentException("Enter valid card in this format: 'Ace of Spades' or '10 of Clubs' with no white space following the suit.");
 		}
 		
