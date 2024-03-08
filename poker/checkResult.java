@@ -3,7 +3,7 @@ package poker;
 import java.util.ArrayList;
 
 /*
- * Represents the result of checking a 7 {@code Card} for a specific hand rank i.e. flush, pair.
+ * Represents the result of checking a 7 {@code Card} hand for a specific hand rank i.e. flush, pair.
  * If the 7 card hand can be classified as the specific hand rank checked for, it will be stored with
  * the classification enumeration. If this is the case, the best five cards are stored in an ArrayList
  * for the purpose of evaluating which hand of equal ranks is better. If the hand cannot be classified 
@@ -57,7 +57,6 @@ public class checkResult{
 	public checkResult() {
 		bestFive = null;
 		handClassification = null;
-		
 	}
 	
 	/**

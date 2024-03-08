@@ -42,7 +42,15 @@ public class PokerDriver extends HandOperations{
 		
 		
 		Card[] playerOneHand = {one, two};
+		if (one.getIndexNumber() < two.getIndexNumber()) {
+			playerOneHand[0] = two;
+			playerOneHand[1] = one;
+		}
 		Card[] playerTwoHand = {three, four};
+		if (three.getIndexNumber() < four.getIndexNumber()) {
+			playerTwoHand[0] = four;
+			playerTwoHand[1] = three;
+		}
 		
 		onevone(playerOneHand, playerTwoHand);
 		

@@ -187,7 +187,9 @@ public class HandOperations {
 				return 12;
 			}
 		}
+		//switch for same hand rank
 		switch(player1HandRank) {
+			//case straight flush
 			case 9: 
 				int p1 = player1BestFive.get(4).getIndexNumber();
 				int p2 = player2BestFive.get(4).getIndexNumber();
@@ -199,8 +201,10 @@ public class HandOperations {
 					return 3;
 				}
 			case 10:
+				//case royal flush
 				return 3;
 			case 8:
+				//case quads
 				int quadsp1 = player1BestFive.get(0).getIndexNumber();
 				int quadsp2 = player2BestFive.get(0).getIndexNumber();
 				if (quadsp1 > quadsp2) {
@@ -219,6 +223,7 @@ public class HandOperations {
 					return 3;
 				}
 			case 7:
+				//case full house
 				int p13 = player1BestFive.get(0).getIndexNumber();
 				int p12 = player1BestFive.get(3).getIndexNumber();
 				int p23 = player2BestFive.get(0).getIndexNumber();
@@ -234,6 +239,7 @@ public class HandOperations {
 				} else if (p13 == p23 && p12 == p22){
 					return 3;
 				}
+				//case flush
 			case 6:
 				if (player1BestFive.get(0).getIndexNumber() > player2BestFive.get(0).getIndexNumber()) {
 					return 61;
@@ -259,6 +265,7 @@ public class HandOperations {
 					return 3;
 				}
 			case 5: 
+				//case straight
 				if (player1BestFive.get(0).getIndexNumber() > player2BestFive.get(0).getIndexNumber()) {
 					return 51;
 				} else if (player2BestFive.get(0).getIndexNumber() > player1BestFive.get(0).getIndexNumber()) {
@@ -267,6 +274,7 @@ public class HandOperations {
 					return 3;
 				}
 			case 4:
+				//case trips
 				if (player1BestFive.get(0).getIndexNumber() > player2BestFive.get(0).getIndexNumber()) {
 					return 41;
 				} else if (player1BestFive.get(0).getIndexNumber() < player2BestFive.get(0).getIndexNumber()) {
@@ -283,6 +291,7 @@ public class HandOperations {
 					return 3;
 				}
 			case 3:
+				// case two pair
 				if (player1BestFive.get(0).getIndexNumber() > player2BestFive.get(0).getIndexNumber()) {
 					return 31;
 				} else if (player1BestFive.get(0).getIndexNumber() < player2BestFive.get(0).getIndexNumber()) {
@@ -299,16 +308,11 @@ public class HandOperations {
 					return 3;
 				}
 			case 2:
+				// case pair
 				for (int i = 0; i < 5 ; i++) {
 					if (player1BestFive.get(i).getIndexNumber() > player2BestFive.get(i).getIndexNumber()) {
-						if (i == 0) {
-						} else {
-						}
 						return 21;
 					} else if (player1BestFive.get(i).getIndexNumber() < player2BestFive.get(i).getIndexNumber()) {
-						if (i == 0) {
-						} else {
-						}
 						return 22;
 					}
 				}
@@ -327,6 +331,10 @@ public class HandOperations {
 		throw new RuntimeException("whoWins: error.");
 	} //whoWins
 	
+	
+	// N choose  K algo.
+	// modified version of this algo that prints every n choose k combo
+	// from https://www.geeksforgeeks.org/make-combinations-size-k/
 	static void makeCombiUtil(int n, int left, int k)
     {
 		
@@ -376,13 +384,6 @@ public class HandOperations {
                 	sf2++;
                 } else if (res/10 == 8) {
                 	q2++;
-                	System.out.println(tab[0]);
-                	System.out.println(tab[1]);
-                	System.out.println(tab[2]);
-                	System.out.println(tab[3]);
-                	System.out.println(tab[4]);
-                	System.out.println();
-                	
                 }  else if (res/10 == 7) {
                 	fh2++;
                 }  else if (res/10 == 6) {
@@ -442,10 +443,6 @@ public class HandOperations {
     		possibleTableCards.add(new Card(x));
     	}
     	
-    	for (Card x: possibleTableCards) {
-    		System.out.println(x);
-    	}
-    	
     	makeCombiN(48,5);
     	
     	//System.out.println("For "+ pl1[0] + " and " + pl1[1] +" vs "+ pl2[0] +" and " + pl2[1]);
@@ -478,9 +475,19 @@ public class HandOperations {
     	System.out.println(hc1+" \tHC\t"+hc2);
     }
 	
+    
+    /**
+     * 
+     * @param seven the seven card array to be checked for a royal flush
+     * @return checkResult the checkResult object containing the best five cards 
+     * and the classification of Royal Flush if there is a royal flush
+     */
 	public static checkResult royalFlush(Card[] seven) {
+		//If the seven card hard is a straight flush
     	if (straightFlush(seven).getHandClassification() == classification.STRAIGHTFLUSH) {
+    		// and if it is straight flush Ace high
     		if (straightFlush(seven).getBestFive().get(4).getIndexNumber() == 12) {
+    			
     			return new checkResult(straightFlush(seven).getBestFive(), classification.ROYALFLUSH);
     		}
     	}
@@ -497,6 +504,8 @@ public class HandOperations {
     	if (seven.length != 7) {
     		throw new IllegalArgumentException("The Card[] passed to this method must be length 7");
     	}
+    	
+    	//counts of each suit in the seven card hand
     	int spade = 0; 
     	int heart = 0; 
     	int diamond = 0;
@@ -504,6 +513,7 @@ public class HandOperations {
     	ArrayList<Card> b5 = new ArrayList<Card>();
     	ArrayList<Card> suited = new ArrayList<Card>();
     	for(int i = 0 ; i < 7 ; i++) {
+    		//tallying  the counts
     		if (seven[i].getSuit().equals("Spades")){
     			spade++;
     		} else if (seven[i].getSuit().equals("Diamonds")) {
@@ -514,6 +524,7 @@ public class HandOperations {
     			heart++;
     		}
     	}
+    	// adding the suited cards to the list of suited cards
     	if (spade > 4) {
     		for (Card x : seven) {
     			if (x.getSuit().equals("Spades")) {
@@ -539,47 +550,66 @@ public class HandOperations {
     			}
     		}
     	}
+    	// if there are 5 suited cards
     	if (suited.size() > 4) {
     		int highest = -1;
     		int index = 0;
+    		// finding the 5 highest suited cards for cases where there is a flush with 6 or 7 suited cards
+    		//outer loop loops five times to get five highest cards
     		for (int i = 0 ; i < 5 ; i++) {
+    			//inner loop finds highest card not yet added to the list of the best 5
     			for (int j = 0 ; j < suited.size() ; j++) {
     				if (suited.get(j).getIndexNumber() > highest) {
     					highest = suited.get(j).getIndexNumber();
     					index = j;
     				}
     			}
+    			//adding the highest card to the list of the best 5
     			b5.add(suited.get(index));
+    			// removing the highest card from the suited list so it doen't
+    			// go into the list of the highest 5 again.
     			suited.remove(index);
     			highest = -1;
     		}
+    		// returns flush
+    		return new checkResult(b5, classification.FLUSH);
+    	
     	}
-    	if (b5.size() > 0) {
-    		classification c = classification.FLUSH;
-    		checkResult build = new checkResult(b5, c);
-    		return build;
-    	} 
-    	checkResult build = new checkResult();
-    	return build;
+    	// if there is no flush it returns null
+    	return new checkResult();
     }
     
+    /**
+     * 
+     * @param seven the seven card array to be checked for a straight
+     * @return a checkResult object with the classification of straight and the best 
+     * five cards if there is a straight
+     */
     public static checkResult straight (Card[] seven) {
+    	//copies the seven card array into an array list
     	ArrayList<Card> copy = new ArrayList<Card>();
     	for (Card x : seven) {
     		copy.add(x);
     	}
+    	//list of the card indicies 0-12 where 0 is a 2 and 12 is an ace
     	ArrayList<Integer> indicies = new ArrayList<Integer>();
     	for (Card x : copy) {
     		indicies.add(x.getIndexNumber());
     	}
+    	//declaring variables that might be needed later
     	ArrayList<Card> build = new ArrayList<Card>();
 		Card one = new Card(); Card two = new Card(); Card three = new Card(); Card four = new Card(); Card five = new Card();
 
+		//loops through all cards
     	for (int i = 0 ; i < seven.length; i++) {
     		if (true) {
+    			//index of the card currently being pointed to in the loop
     			int f = indicies.get(i);
+    			// corner case for A-5 flush 
+    			// if the list contains A-5
     			if (f==0 && indicies.contains(12) && indicies.contains(1) && indicies.contains(2) && indicies.contains(3)) {
     				for (int k = 0 ; k < copy.size(); k++) {
+    					// finds the A-5 and assigns them to Card one - five.
     					if (copy.get(k).getIndexNumber() == 12) {
     						one = copy.get(k);
     					}
@@ -592,18 +622,17 @@ public class HandOperations {
     					} else if (copy.get(k).getIndexNumber()==f + 3) {
     						five = copy.get(k);
     					}
-    					
     				}
-    				if (build.size() > 0 && build.get(4).getIndexNumber() < five.getIndexNumber()) {
-    					build.clear();
-    					build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
-    				} else if( build.size() == 0) {
-    					build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
+    				//adding the A-5 to the array returned as the best five card hand
+        			build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
 
-    				}
-    				
     			}
+    			//looking for all other straight combos.
+    			// if there is  a card one higher than the current card in loop
+    			// all the way through one four higher. 
     			if (indicies.contains(f + 1) && indicies.contains(f + 2) && indicies.contains(f + 3) && indicies.contains(f + 4)) {
+    				//looping through to find these cards that make the straight
+    				// and assigning them to Card one-five
     				for (int k = 0 ; k < copy.size(); k++) {
     					if (copy.get(k).getIndexNumber() == f) {
     						one = copy.get(k);
@@ -619,9 +648,11 @@ public class HandOperations {
     					}
     					
     				}
+    				// if there is another straight and this one just found is better
     				if (build.size() > 0 && build.get(4).getIndexNumber() < five.getIndexNumber()) {
     					build.clear();
     					build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
+    					// if there is not another straight already found
     				} else if( build.size() == 0) {
     					build.add(one); build.add(two); build.add(three); build.add(four); build.add(five);
 
@@ -629,64 +660,80 @@ public class HandOperations {
     			}
     		}
     	}
+    	// if there was a straight found
     	if(build.size() > 0) {
-    		checkResult s = new checkResult(build, classification.STRAIGHT);
-    		return s;
+    		return new checkResult(build, classification.STRAIGHT);
     	}
-    	return new checkResult(build, null);
+    	// else it returns null
+    	return new checkResult();
     }
+    
+    
     public static checkResult highCard(Card[] seven) {
+    	//copies seven card array to an array list
     	ArrayList<Card> copy = new ArrayList<Card>();
     	for (Card x : seven) {
     		copy.add(x);
     	}
+    	// orders the list from low to high based on rank
     	copy = order(copy);
     	ArrayList<Card> build = new ArrayList<Card>();
+    	
+    	//adds the five highest cards to a list 
     	build.add(copy.get(6));
     	build.add(copy.get(5));
     	build.add(copy.get(4));
     	build.add(copy.get(3));
     	build.add(copy.get(2));
+    	//returns highcard with the best 5 cards
     	return new checkResult(build, classification.HIGHCARD);
     }
     
     public static checkResult fullHouse(Card[] seven) {
+    	//variables to be set to the full house cards if they are found
     	int index1 = -1;
     	int index2 = -1;
     	int index3 = -1;
     	int index4 = -1;
     	int index5 = -1;
+    	//new list for cards to be made into array list and list of best five cards
     	ArrayList<Card> copy = new ArrayList<Card>();
     	ArrayList<Card> build = new ArrayList<Card>();
 
     	for (Card x : seven) {
     		copy.add(x);
     	}
+    	//orders list based on rank
     	copy = order(copy);
 
+    	//looking to see if three cards in a row have the same rank
     	for (int i = 0; i < 5 ; i++) {
     		int i1 = copy.get(i).getIndexNumber();
     		int i2 = copy.get(i + 1).getIndexNumber();
     		int i3 = copy.get(i + 2).getIndexNumber();
+    		// if they do save these indicies.
    			if (i1 == i2 && i2 == i3) {
    				index1 = i;
     			index2 = i + 1;
     			index3 = i + 2;
-    			}
-
-    		
+    			}    		
     	}
+    	// if there are 3 cards with same rank add them to the build list to be returned later
     	if (index1 != -1) {
     		build.add(copy.get(index1));
     		build.add(copy.get(index2));
     		build.add(copy.get(index3));
+    		//removes the three so they can't also be counted as the two
     		copy.remove(index3);
     		copy.remove(index2);
     		copy.remove(index1);
 
+    		// if there aren't three it returns null
     	} else {
-    		return new checkResult(null, null);
+    		return new checkResult();
     	}
+    	
+    	//looking for two cards in same manor as the three
     	for (int i = 0; i < 3 ; i++) {
     		if(copy.get(i).getIndexNumber() == copy.get(i + 1).getIndexNumber()) {
     			index4 = i;
@@ -695,41 +742,57 @@ public class HandOperations {
    			}
     		
     	}
+    	//if two cards of same rank are found it adds them to the list of best five card hand
     	if (index4 != -1) {
     		build.add(copy.get(index4));
     		build.add(copy.get(index5));
 
+    		//if there aren't it returns null
     	} else {
-    		return new checkResult(build, null);
+    		return new checkResult();
     	}
-    	
+    
+    	//returns fullhouse and the list of the cards in the fullhouse
     	return new checkResult(build, classification.FULLHOUSE);
     	
     }
     
+    
     public static checkResult twoPair(Card[] seven) {
+    	//copies array into an array list
     	ArrayList<Card> copy = new ArrayList<Card>();
     	for (Card x : seven) {
     		copy.add(x);
     	}
+    	//list for best five card hand
     	ArrayList<Card> build = new ArrayList<Card>();
+    	//varibles to store indicies of pairs in.
     	int index1 = -1;
     	int index2 = -1;
     	int index3 = -1;
     	int index4 = -1;
     	int index5 = -1;
     	int index6 = -1;
+    	//orders list
     	copy = order(copy);
+    	//loops through the first 6 cards and checks if the one after it is of same rank
     	for ( int i = 0 ; i < 6 ; i++) {
+    		//if card referenced by loop index has same rank as card after it
     		if (copy.get(i).getIndexNumber() == copy.get(i + 1).getIndexNumber()) {
+    			// if this is the first pair found
     			if (index1 == -1) {
+    				//saves indicies of pair
     				index1 = i;
         			index2 = i + 1;
+        			//increments loop index by one so it doesn't check the
+        			//second card in the pair to save time
         			i++;
+        			// if this is the second pair found
     			} else if(index3 == -1) {
     				index3 = i;
     				index4 = i + 1;
     				i++;
+    				// if this is the third
     			} else {
     				index5 = i;
     				index6 = i + 1;
@@ -737,6 +800,8 @@ public class HandOperations {
     			}
     		}
     	}
+    	//if there are three pairs found adds the best two pairs to the return
+    	// list and removes them so they aren't considered for fifth card kicker
     	if (index5 != -1) {
     		build.add(copy.get(index6));
     		build.add(copy.get(index5));
@@ -746,7 +811,8 @@ public class HandOperations {
     		copy.remove(index5);
     		copy.remove(index4);
     		copy.remove(index3);
-
+    		
+    		//if only two pairs are found adds those and removes them
     	} else if(index3 != -1) {
     		build.add(copy.get(index4));
     		build.add(copy.get(index3));
@@ -756,24 +822,32 @@ public class HandOperations {
     		copy.remove(index3);
     		copy.remove(index2);
     		copy.remove(index1);
+    		//if one or no pair is found null is returned.
     	} else {
-    		return new checkResult(build, null);
+    		return new checkResult();
     	}
-    	build.add(copy.get(copy.size() - 1));
+    	//adds highest remaining card
+    	build.add(copy.get(2));
     	return new checkResult(build, classification.TWOPAIR);
 
     }
+    
+    
     public static checkResult quads(Card[] seven) {
+    	//copies list into an array list
     	ArrayList<Card> copy = new ArrayList<Card>();
     	for (Card x : seven) {
     		copy.add(x);
     	}
     	ArrayList<Card> build = new ArrayList<Card>();
+    	//variables to store the quads if they are foudn
     	int index1 = -1;
     	int index2 = -1;
     	int index3 = -1;
     	int index4 = -1;
+    	//orders list
     	copy = order(copy);
+    	//loops through first 4 cards and sees if the three after them are of the same rank.
     	for (int i = 0 ; i < 4 ; i++) {
     		int i1 = copy.get(i).getIndexNumber();
     		int i2 = copy.get(i + 1).getIndexNumber();
@@ -787,70 +861,81 @@ public class HandOperations {
     			index4 = i + 3;
     		}
     	}
+    	//if there are quads add them to list of best five and remove them from the rest
+    	// so they aren't considered for fifth card kicker
     	if (index1 != -1) {
     		build.add(copy.get(index1));
     		build.add(copy.get(index2));
     		build.add(copy.get(index3));
     		build.add(copy.get(index4));
+    		
     		copy.remove(index1);
     		copy.remove(index1);
     		copy.remove(index1);
     		copy.remove(index1);
+    		//adds highest remaining card
     		build.add(copy.get(2));
+    		return new checkResult(build, classification.QUADS);
     	}
-    	if (build.size() > 0) {
-    		checkResult s = new checkResult(build, classification.QUADS);
-    		return s;
-    	}
+    	// else returns null
     	return new checkResult();
     	
     }
     
     
     public static checkResult trips(Card[] seven) {
+    	// adds cards in array to an array list
     	ArrayList<Card> copy = new ArrayList<Card>();
     	for (Card x : seven) {
     		copy.add(x);
     	}
     	ArrayList<Card> build = new ArrayList<Card>();
+    	//stores indicies of trips if found
     	int index1 = -1;
     	int index2 = -1;
     	int index3 = -1;
+    	//orders list
     	copy = order(copy);
-    	for ( int i = 0 ; i < 5 ; i++) {
+    	//loops through first five cards and checks if next two are of same rank
+    	for (int i = 0 ; i < 5 ; i++) {
+    		//if card at index has same rank as next two
     		if (copy.get(i).getIndexNumber() == copy.get(i + 1).getIndexNumber() && copy.get(i + 1).getIndexNumber() == copy.get(i + 2).getIndexNumber()) {
     			index1 = i;
     			index2 = i + 1;
     			index3 = i + 2;
     		}
     	}
+    	//if trips are found add the trips to the best five list and remove them from contention for kickership
     	if (index1 != -1) {
     		build.add(copy.get(index1));
     		build.add(copy.get(index2));
     		build.add(copy.get(index3));
+    		copy.remove(index3);
+    		copy.remove(index2);
     		copy.remove(index1);
-    		copy.remove(index1);
-    		copy.remove(index1);
+    		//adds highest 2 cards remaining to best five card list
     		build.add(copy.get(3));
     		build.add(copy.get(2));
+    		return new checkResult(build, classification.TRIPS);
     	}
-    	if (build.size() > 0) {
-    		checkResult s = new checkResult(build, classification.TRIPS);
-    		return s;
-    	}
-    	return new checkResult(build, null);
+    	// else returns null
+    	return new checkResult();
     }
     
     public static checkResult straightFlush(Card[] seven) {
+    	//copies array into an arrayList
     	ArrayList<Card> copy = new ArrayList<Card>();
     	for (Card x : seven) {
     		copy.add(x);
     	}
+    	//orders list
     	copy = order(copy);
+    	//counts of each suit
     	int d = getNumOfSuit("Diamonds", seven);
     	int s = getNumOfSuit("Spades", seven);
     	int c = getNumOfSuit("Clubs", seven);
     	int h = getNumOfSuit("Hearts", seven);
+    	//for each suit if there are 5 or more, they are passed into straight method to find if there is a straight
     	if (d > 4) {
     		Card[] build = new Card[d];
     		int index = 0;
@@ -860,6 +945,8 @@ public class HandOperations {
     				index++;
     			}
     		}
+    		//if there is a straight with the suited cards, the cards that compose the straight are returned as best five with 
+    		// the classification of straight flush
     		if(straight(build).getHandClassification()==classification.STRAIGHT) {
     			return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
     		}
@@ -903,6 +990,7 @@ public class HandOperations {
     			return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
     		}
     	}
+    	//returns null if no straight flush is found
     	return new checkResult();
     	
     	
@@ -920,13 +1008,13 @@ public class HandOperations {
     	int index1 = -1;
     	int index2 = -1;
     	copy = order(copy);
-    	for ( int i = 0 ; i < 6 ; i++) {
+    	for (int i = 0 ; i < 6 ; i++) {
     		if (copy.get(i).getIndexNumber() == copy.get(i + 1).getIndexNumber()) {
     			index1 = i;
     			index2 = i + 1;
     		}
     	}
-    	if ( index1 != -1) {
+    	if (index1 != -1) {
     		build.add(copy.get(index1));
     		build.add(copy.get(index2));
     		copy.remove(index1);
@@ -934,12 +1022,11 @@ public class HandOperations {
     		build.add(copy.get(4));
     		build.add(copy.get(3));
     		build.add(copy.get(2));
+    		return new checkResult(build, classification.PAIR);
+
     	}
-    	if (build.size() > 0) {
-    		checkResult s = new checkResult(build, classification.PAIR);
-    		return s;
-    	}
-    	return new checkResult(build, null);
+    		
+    	return new checkResult();
 
     }
     
@@ -974,13 +1061,27 @@ public class HandOperations {
     
     public static void main(String[] args) {
     	Card a = new Card("Ace of spades");
-    	Card b = new Card("Ace of diamonds");
-    	Card c = new Card("10 of clubs");
-    	Card d = new Card("Jack of clubs");
+    	Card b = new Card("8 of diamonds");
+    	
+    	Card c = new Card("Ace of diamonds");
+    	Card d = new Card("7 of spades");
+    	
+    	Card e = new Card("King of spades");
+    	Card f = new Card("queen of clubs");
+    	Card g = new Card("2 of diamonds");
+    	Card h = new Card("4 of hearts");
+    	Card i = new Card("9 of hearts");
+    	
+    	Card[] o = {a,b};
+    	Card[] t = {c,d};
+    	Card[] ta = {e,f,g,h,i};
+    	
+    	Card[] pp = {a,b,e,f,g,h,i};
+    	
     	
     	
     }
-	
+    
 	
 	
 } // HandOperations

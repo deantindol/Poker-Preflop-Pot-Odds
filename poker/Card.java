@@ -54,6 +54,24 @@ public class Card {
 				indexNumber = 10;
 			} else if (rankInput.equalsIgnoreCase("Jack")) {
 				indexNumber = 9;
+			} else if (rankInput.equalsIgnoreCase("Ten")) {
+				indexNumber = 8;
+			} else if (rankInput.equalsIgnoreCase("nine")) {
+				indexNumber = 7;
+			} else if (rankInput.equalsIgnoreCase("eight")) {
+				indexNumber = 6;
+			} else if (rankInput.equalsIgnoreCase("seven")) {
+				indexNumber = 5;
+			} else if (rankInput.equalsIgnoreCase("six")) {
+				indexNumber = 4;
+			} else if (rankInput.equalsIgnoreCase("five")) {
+				indexNumber = 3;
+			} else if (rankInput.equalsIgnoreCase("four")) {
+				indexNumber = 2;
+			} else if (rankInput.equalsIgnoreCase("three")) {
+				indexNumber = 1;
+			} else if (rankInput.equalsIgnoreCase("two")) {
+				indexNumber = 0;
 			}
 			else {
 				int shownCardNumber = Integer.parseInt(rankInput);
