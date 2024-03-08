@@ -604,6 +604,7 @@ public class HandOperations {
 
 		//loops through all cards
     	for (int i = 0 ; i < seven.length; i++) {
+    		//i had another block here earlier and didnt want to unindenent it all :l
     		if (true) {
     			//index of the card currently being pointed to in the loop
     			int f = indicies.get(i);
@@ -639,13 +640,13 @@ public class HandOperations {
     					if (copy.get(k).getIndexNumber() == f) {
     						one = copy.get(k);
     					}
-    					else if (copy.get(k).getIndexNumber()== f + 1) {
+    					else if (copy.get(k).getIndexNumber() == f + 1) {
     						two = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f + 2) {
+    					} else if (copy.get(k).getIndexNumber() == f + 2) {
     						three = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f + 3) {
+    					} else if (copy.get(k).getIndexNumber() == f + 3) {
     						four = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f + 4) {
+    					} else if (copy.get(k).getIndexNumber() == f + 4) {
     						five = copy.get(k);
     					}
     					
@@ -1061,6 +1062,7 @@ public class HandOperations {
     	return count;
     }
     
+    /**
     public static void main(String[] args) {
     	Card a = new Card("7 of spades");
     	Card b = new Card("8 of diamonds");
@@ -1087,7 +1089,7 @@ public class HandOperations {
     	
     	
     }
-    
+    */
 	
 	
 } // HandOperations
