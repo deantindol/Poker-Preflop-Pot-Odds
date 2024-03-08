@@ -434,10 +434,10 @@ public class HandOperations {
     	for (int i = 1; i < 53; i++) {
     		fe.add(i);
     	}
-    	fe.remove(fe.indexOf(pl1[0].getoft())+1);
-    	fe.remove(fe.indexOf(pl1[1].getoft())+1);
-    	fe.remove(fe.indexOf(pl2[0].getoft())+1);
-    	fe.remove(fe.indexOf(pl2[1].getoft())+1);
+    	fe.remove(fe.indexOf(pl1[0].getoft()));
+    	fe.remove(fe.indexOf(pl1[1].getoft()));
+    	fe.remove(fe.indexOf(pl2[0].getoft()));
+    	fe.remove(fe.indexOf(pl2[1].getoft()));
     	
     	for (int x : fe) {
     		possibleTableCards.add(new Card(x));
@@ -459,6 +459,8 @@ public class HandOperations {
     	System.out.print("Pushes: ");
     	System.out.printf("%.2f", ((double)pushes/1712304)*100);
     	System.out.println("%");
+    	
+    	System.out.println("Total cases ran: "+(p1Wins+p2Wins+pushes));
 
     	
 
@@ -1060,23 +1062,27 @@ public class HandOperations {
     }
     
     public static void main(String[] args) {
-    	Card a = new Card("Ace of spades");
+    	Card a = new Card("7 of spades");
     	Card b = new Card("8 of diamonds");
     	
-    	Card c = new Card("Ace of diamonds");
-    	Card d = new Card("7 of spades");
+    	Card c = new Card("9 of diamonds");
+    	Card d = new Card("10 of spades");
     	
-    	Card e = new Card("King of spades");
+    	Card e = new Card("jack of spades");
     	Card f = new Card("queen of clubs");
-    	Card g = new Card("2 of diamonds");
-    	Card h = new Card("4 of hearts");
-    	Card i = new Card("9 of hearts");
+    	Card g = new Card("king of diamonds");
+    	Card h = new Card("ace of hearts");
+    	Card i = new Card("6 of hearts");
     	
     	Card[] o = {a,b};
     	Card[] t = {c,d};
     	Card[] ta = {e,f,g,h,i};
     	
-    	Card[] pp = {a,b,e,f,g,h,i};
+    	Card[] pp = {a,b,c,d,e,f,g,h,i};
+    	Card[]ppp= {c,d,e,f,g,h,i};
+    	
+    	System.out.println(whoWins(o,t,ta));
+    	System.out.println(straight(pp).getBestFive());
     	
     	
     	
