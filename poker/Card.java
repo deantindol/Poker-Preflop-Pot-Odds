@@ -82,16 +82,16 @@ public class Card {
 			}
 			if (suitInput.equalsIgnoreCase("Clubs")) {
 				suit = "Clubs";
-				oft = indexNumber;
+				oft = indexNumber + 1; 
 			} else if (suitInput.equalsIgnoreCase("Diamonds")) {
 				suit = "Diamonds";
-				oft = 13 + indexNumber;
+				oft = 14 + indexNumber;
 			} else if (suitInput.equalsIgnoreCase("Hearts")) {
 				suit = "Hearts";
-				oft = 26 + indexNumber;
+				oft = 27 + indexNumber;
 			} else if (suitInput.equalsIgnoreCase("Spades")) {
 				suit = "Spades";
-				oft = 39 + indexNumber;
+				oft = 40 + indexNumber;
 			} else {
 				throw new IllegalArgumentException("Enter valid card in this format: 'Ace of Spades' or '10 of Clubs' with no white space following the suit.");
 			}
@@ -172,5 +172,15 @@ public class Card {
 	 */
 	public int getoft() {
 		return oft;
+	}
+	
+	public static void main(String[] args) {
+		for (int i = 1; i < 53; i++) {
+			Card a = new Card(i);
+			String s = a.toString();
+			Card b = new Card(s);
+			System.out.print(a.getoft()+ " \t");
+			System.out.println(b.getoft());
+		}
 	}
 }

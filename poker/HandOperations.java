@@ -266,9 +266,9 @@ public class HandOperations {
 				}
 			case 5: 
 				//case straight
-				if (player1BestFive.get(0).getIndexNumber() > player2BestFive.get(0).getIndexNumber()) {
+				if (player1BestFive.get(4).getIndexNumber() > player2BestFive.get(4).getIndexNumber()) {
 					return 51;
-				} else if (player2BestFive.get(0).getIndexNumber() > player1BestFive.get(0).getIndexNumber()) {
+				} else if (player2BestFive.get(4).getIndexNumber() > player1BestFive.get(4).getIndexNumber()) {
 					return 52;
 				} else {
 					return 3;
@@ -434,14 +434,16 @@ public class HandOperations {
     	for (int i = 1; i < 53; i++) {
     		fe.add(i);
     	}
-    	fe.remove(fe.indexOf(pl1[0].getoft()));
-    	fe.remove(fe.indexOf(pl1[1].getoft()));
-    	fe.remove(fe.indexOf(pl2[0].getoft()));
-    	fe.remove(fe.indexOf(pl2[1].getoft()));
+    	fe.remove(fe.indexOf(pl1[0].getoft()) );
+    	fe.remove(fe.indexOf(pl1[1].getoft()) );
+    	fe.remove(fe.indexOf(pl2[0].getoft()) );
+    	fe.remove(fe.indexOf(pl2[1].getoft()) );
     	
     	for (int x : fe) {
     		possibleTableCards.add(new Card(x));
     	}
+    	
+    	
     	
     	makeCombiN(48,5);
     	
@@ -587,7 +589,7 @@ public class HandOperations {
      * @return a checkResult object with the classification of straight and the best 
      * five cards if there is a straight
      */
-    public static checkResult straight (Card[] seven) {
+    public static checkResult straight(Card[] seven) {
     	//copies the seven card array into an array list
     	ArrayList<Card> copy = new ArrayList<Card>();
     	for (Card x : seven) {
@@ -616,13 +618,13 @@ public class HandOperations {
     					if (copy.get(k).getIndexNumber() == 12) {
     						one = copy.get(k);
     					}
-    					else if (copy.get(k).getIndexNumber()== f) {
+    					else if (copy.get(k).getIndexNumber() == 0) {
     						two = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f + 1) {
+    					} else if (copy.get(k).getIndexNumber() == 1) {
     						three = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f + 2) {
+    					} else if (copy.get(k).getIndexNumber() == 2) {
     						four = copy.get(k);
-    					} else if (copy.get(k).getIndexNumber()==f + 3) {
+    					} else if (copy.get(k).getIndexNumber() == 3) {
     						five = copy.get(k);
     					}
     				}
