@@ -1,4 +1,7 @@
-This is still a work in progress. 
-Documentation is unfinished and more optimization is to come.
+This program provides the preflop win percantage and push (tie) percentage for two hands in Texas Hold'em.
+
+**This is still a work in progress. 
+**Documentation is unfinished and more optimization is to come.
 Runs on my M2 Mac in 7 seconds so slower processors might take longer. 
-To run the program, look into the main method of CompareTwoHands and change the cards.
+To run the program with keyboard input run PokerDriver.
+For two random hands, run Random.
