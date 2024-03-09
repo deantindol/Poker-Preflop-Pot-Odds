@@ -38,7 +38,11 @@ public class Random extends PokerDriver {
             playerTwoHand[1] = three;
         }
 
-        onevone(playerOneHand, playerTwoHand);
+        if (args.length > 0 && args[0].equalsIgnoreCase("-l")) {
+            onevone(playerOneHand, playerTwoHand, true);
+        } else {
+            onevone(playerOneHand, playerTwoHand, false);
+        }
 
     }
 }

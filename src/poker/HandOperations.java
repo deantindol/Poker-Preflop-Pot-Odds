@@ -411,7 +411,7 @@ public class HandOperations {
         return ans;
     }
 
-    public static void onevone (Card[] pl1, Card[] pl2) {
+    public static void onevone (Card[] pl1, Card[] pl2, boolean longOutput) {
         p1 = pl1;
         p2 = pl2;
         for (int i = 1; i < 53; i++) {
@@ -435,18 +435,21 @@ public class HandOperations {
         System.out.printf("%.2f", ((double)pushes / 1712304) * 100);
         System.out.println("%");
 
-        System.out.println("P1\t:\tP2");
-        System.out.println(rf1 + " \tRF\t " + rf2);
-        System.out.println(sf1 + " \tSF\t" + sf2);
-        System.out.println(q1 + " \tQ \t" + q2);
-        System.out.println(fh1 + " \tFH\t" + fh2);
-        System.out.println(f1 + " \tF\t" + f2);
-        System.out.println(s1 + " \tS\t" + s2);
-        System.out.println(t1 + " \tT\t" + t2);
-        System.out.println(tp1 + " \tTP\t" + tp2);
-        System.out.println(pair1 + " \tPAIR\t" + pair2);
-        System.out.println(hc1 + " \tHC\t" + hc2);
+        if (longOutput) {
+            System.out.println("P1\t:\tP2");
+            System.out.println(rf1 + " \tRF\t " + rf2);
+            System.out.println(sf1 + " \tSF\t" + sf2);
+            System.out.println(q1 + " \tQ \t" + q2);
+            System.out.println(fh1 + " \tFH\t" + fh2);
+            System.out.println(f1 + " \tF\t" + f2);
+            System.out.println(s1 + " \tS\t" + s2);
+            System.out.println(t1 + " \tT\t" + t2);
+            System.out.println(tp1 + " \tTP\t" + tp2);
+            System.out.println(pair1 + " \tPAIR\t" + pair2);
+            System.out.println(hc1 + " \tHC\t" + hc2);
+        }
     }
+
 
     /**
      *

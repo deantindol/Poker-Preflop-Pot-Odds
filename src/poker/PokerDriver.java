@@ -55,7 +55,12 @@ public class PokerDriver extends HandOperations {
             playerTwoHand[0] = four;
             playerTwoHand[1] = three;
         }
-        onevone(playerOneHand, playerTwoHand);
+        if (args.length > 0 && args[0].equalsIgnoreCase("-l")) {
+            onevone(playerOneHand, playerTwoHand, true);
+        } else {
+            onevone(playerOneHand, playerTwoHand, false);
+        }
+
         s.close();
     }
 }
