@@ -47,61 +47,106 @@ public class Card {
     public Card(String s) {
         String throwMessage = "Enter valid card in this format:";
         throwMessage += " 'Ace of Spades', 'Ten of Diamonds', or 'Two of Clubs'";
-        try {
-            String rankInput = s.substring(0,s.indexOf(" "));
-            String suitInput = s.substring(s.indexOf("of ") + 3);
-            if (rankInput.equalsIgnoreCase("Ace")) {
+        if (s.length() == 2) {
+            String rankInputShort = s.substring(0,1);
+            String suitInputShort = s.substring(1);
+            if (rankInputShort.equalsIgnoreCase("A")) {
                 indexNumber = 12;
-            } else if (rankInput.equalsIgnoreCase("King")) {
+            } else if (rankInputShort.equalsIgnoreCase("K")) {
                 indexNumber = 11;
-            } else if (rankInput.equalsIgnoreCase("Queen")) {
+            } else if (rankInputShort.equalsIgnoreCase("Q")) {
                 indexNumber = 10;
-            } else if (rankInput.equalsIgnoreCase("Jack")) {
+            } else if (rankInputShort.equalsIgnoreCase("J")) {
                 indexNumber = 9;
-            } else if (rankInput.equalsIgnoreCase("Ten")) {
+            } else if (rankInputShort.equalsIgnoreCase("T")) {
                 indexNumber = 8;
-            } else if (rankInput.equalsIgnoreCase("nine")) {
-                indexNumber = 7;
-            } else if (rankInput.equalsIgnoreCase("eight")) {
-                indexNumber = 6;
-            } else if (rankInput.equalsIgnoreCase("seven")) {
-                indexNumber = 5;
-            } else if (rankInput.equalsIgnoreCase("six")) {
-                indexNumber = 4;
-            } else if (rankInput.equalsIgnoreCase("five")) {
-                indexNumber = 3;
-            } else if (rankInput.equalsIgnoreCase("four")) {
-                indexNumber = 2;
-            } else if (rankInput.equalsIgnoreCase("three")) {
-                indexNumber = 1;
-            } else if (rankInput.equalsIgnoreCase("two")) {
-                indexNumber = 0;
             } else {
-                int shownCardNumber = Integer.parseInt(rankInput);
-                if (shownCardNumber < 2 || shownCardNumber > 10) {
+                try {
+                    int shownCardNumber = Integer.parseInt(rankInputShort);
+                    if (shownCardNumber < 2 || shownCardNumber > 9) {
+                        throw new IllegalArgumentException("Valid short card format: Tc, 9h, Ad");
+                    }
+                    indexNumber = shownCardNumber - 2;
+                } catch (NumberFormatException ex) {
                     throw new IllegalArgumentException(throwMessage);
                 }
-                indexNumber = shownCardNumber - 2;
+
             }
-            if (suitInput.equalsIgnoreCase("Clubs")) {
+            if (suitInputShort.equalsIgnoreCase("C")) {
                 suit = "Clubs";
                 oft = indexNumber + 1;
-            } else if (suitInput.equalsIgnoreCase("Diamonds")) {
+            } else if (suitInputShort.equalsIgnoreCase("D")) {
                 suit = "Diamonds";
-                oft = 14 + indexNumber;
-            } else if (suitInput.equalsIgnoreCase("Hearts")) {
+                oft = indexNumber + 14;
+            } else if (suitInputShort.equalsIgnoreCase("H")) {
                 suit = "Hearts";
-                oft = 27 + indexNumber;
-            } else if (suitInput.equalsIgnoreCase("Spades")) {
+                oft = indexNumber + 27;
+            } else if (suitInputShort.equalsIgnoreCase("S")) {
                 suit = "Spades";
-                oft = 40 + indexNumber;
+                oft = indexNumber + 40;
             } else {
+                throw new IllegalArgumentException("Valid short card format: Tc, 9h, Ad");
+            }
+
+
+
+        } else {
+            try {
+                String rankInput = s.substring(0,s.indexOf(" "));
+                String suitInput = s.substring(s.indexOf("of ") + 3);
+                if (rankInput.equalsIgnoreCase("Ace")) {
+                    indexNumber = 12;
+                } else if (rankInput.equalsIgnoreCase("King")) {
+                    indexNumber = 11;
+                } else if (rankInput.equalsIgnoreCase("Queen")) {
+                    indexNumber = 10;
+                } else if (rankInput.equalsIgnoreCase("Jack")) {
+                    indexNumber = 9;
+                } else if (rankInput.equalsIgnoreCase("Ten")) {
+                    indexNumber = 8;
+                } else if (rankInput.equalsIgnoreCase("nine")) {
+                    indexNumber = 7;
+                } else if (rankInput.equalsIgnoreCase("eight")) {
+                    indexNumber = 6;
+                } else if (rankInput.equalsIgnoreCase("seven")) {
+                    indexNumber = 5;
+                } else if (rankInput.equalsIgnoreCase("six")) {
+                    indexNumber = 4;
+                } else if (rankInput.equalsIgnoreCase("five")) {
+                    indexNumber = 3;
+                } else if (rankInput.equalsIgnoreCase("four")) {
+                    indexNumber = 2;
+                } else if (rankInput.equalsIgnoreCase("three")) {
+                    indexNumber = 1;
+                } else if (rankInput.equalsIgnoreCase("two")) {
+                    indexNumber = 0;
+                } else {
+                    int shownCardNumber = Integer.parseInt(rankInput);
+                    if (shownCardNumber < 2 || shownCardNumber > 10) {
+                        throw new IllegalArgumentException(throwMessage);
+                    }
+                    indexNumber = shownCardNumber - 2;
+                }
+                if (suitInput.equalsIgnoreCase("Clubs")) {
+                    suit = "Clubs";
+                    oft = indexNumber + 1;
+                } else if (suitInput.equalsIgnoreCase("Diamonds")) {
+                    suit = "Diamonds";
+                    oft = 14 + indexNumber;
+                } else if (suitInput.equalsIgnoreCase("Hearts")) {
+                    suit = "Hearts";
+                    oft = 27 + indexNumber;
+                } else if (suitInput.equalsIgnoreCase("Spades")) {
+                    suit = "Spades";
+                    oft = 40 + indexNumber;
+                } else {
+                    throw new IllegalArgumentException(throwMessage);
+                }
+            } catch (StringIndexOutOfBoundsException ex) {
+                throw new IllegalArgumentException(throwMessage);
+            } catch (NumberFormatException ex) {
                 throw new IllegalArgumentException(throwMessage);
             }
-        } catch (StringIndexOutOfBoundsException ex) {
-            throw new IllegalArgumentException(throwMessage);
-        } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException(throwMessage);
         }
     }
 
