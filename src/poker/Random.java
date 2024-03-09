@@ -1,5 +1,9 @@
 package poker;
 
+/**
+ * Generates four random cards, two for each player.
+ * Pre-flop odds are calculated and printed
+ */
 public class Random extends PokerDriver {
 
     public static void main(String[] args) {
