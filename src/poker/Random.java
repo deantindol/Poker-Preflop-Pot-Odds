@@ -1,10 +1,14 @@
 package poker;
 
+
 /**
  * Generates four random cards, two for each player.
  * Pre-flop odds are calculated and printed
  */
 public class Random extends PokerDriver {
+	
+	private static long startTime = System.currentTimeMillis();
+	
 
     public static void main(String[] args) {
         int r1 = (int)(Math.random() * 52) + 1;
@@ -43,6 +47,9 @@ public class Random extends PokerDriver {
         } else {
             onevone(playerOneHand, playerTwoHand, false);
         }
+        
+        System.out.println("Executed in: " + (System.currentTimeMillis() - startTime) + " ms");
+
 
     }
 }

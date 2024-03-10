@@ -37,8 +37,11 @@ public class PokerDriver extends HandOperations {
         if (oneFullName.equals(twoFullName) || threeFullName.equals(oneFullName) ||
             threeFullName.equals(twoFullName) || fourFullName.equals(oneFullName) ||
             fourFullName.equals(threeFullName) || fourFullName.equals(twoFullName)) {
+        	s.close();
             throw new IllegalArgumentException("No card can be the same as another");
         }
+        
+        final long startTime = System.currentTimeMillis();
 
 
         Card[] playerOneHand = {one, two};
@@ -58,5 +61,7 @@ public class PokerDriver extends HandOperations {
         }
 
         s.close();
+        System.out.println("Executed in: " + (System.currentTimeMillis() - startTime) + " ms");
+
     }
 }

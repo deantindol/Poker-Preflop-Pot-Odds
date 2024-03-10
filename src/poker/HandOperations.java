@@ -1,7 +1,6 @@
 package poker;
 
 import java.util.*;
-import poker.checkResult.classification;
 
 public class HandOperations {
     static Vector<Vector<Integer>> ans = new Vector<Vector<Integer>>();
@@ -70,71 +69,122 @@ public class HandOperations {
         ArrayList<Card> player1BestFive = new ArrayList<Card>();
         ArrayList<Card> player2BestFive = new ArrayList<Card>();
 
-
-
-
-        if (royalFlush(player1Full).getHandClassification() == classification.ROYALFLUSH) {
-            player1HandRank = 10;
-            player1BestFive = royalFlush(player1Full).getBestFive();
-        } else if (straightFlush(player1Full).getHandClassification() == classification.STRAIGHTFLUSH) {
-            player1HandRank = 9;
-            player1BestFive = straightFlush(player1Full).getBestFive();
-        } else if (quads(player1Full).getHandClassification() == classification.QUADS) {
-            player1HandRank = 8;
-            player1BestFive = quads(player1Full).getBestFive();
-        } else if (fullHouse(player1Full).getHandClassification() == classification.FULLHOUSE) {
-            player1HandRank = 7;
-            player1BestFive = fullHouse(player1Full).getBestFive();
-        } else if (flush(player1Full).getHandClassification() == classification.FLUSH) {
-            player1HandRank = 6;
-            player1BestFive = flush(player1Full).getBestFive();
-        } else if (straight(player1Full).getHandClassification() == classification.STRAIGHT) {
-            player1HandRank = 5;
-            player1BestFive = straight(player1Full).getBestFive();
-        } else if (trips(player1Full).getHandClassification() == classification.TRIPS) {
-            player1HandRank = 4;
-            player1BestFive = trips(player1Full).getBestFive();
-        } else if (twoPair(player1Full).getHandClassification() == classification.TWOPAIR) {
-            player1HandRank = 3;
-            player1BestFive = twoPair(player1Full).getBestFive();
-        } else if (pair(player1Full).getHandClassification() == classification.PAIR) {
-            player1HandRank = 2;
-            player1BestFive = pair(player1Full).getBestFive();
-        } else if (highCard(player1Full).getHandClassification() == classification.HIGHCARD) {
-            player1HandRank = 1;
-            player1BestFive = highCard(player1Full).getBestFive();
+        
+        checkResult p1Flush = flush(player1Full);
+        checkResult p1Straight = straight(player1Full);
+        
+        if (p1Flush.getHandClassification()) {
+        	if (p1Straight.getHandClassification()) {
+        		checkResult p1StraightFlush = straightFlush(player1Full);
+        		if (p1StraightFlush.getHandClassification()) {
+        			if (p1StraightFlush.getBestFive().get(4).getIndexNumber() == 12) {
+        				player1HandRank = 10;
+        				player1BestFive = p1StraightFlush.getBestFive();
+        			} else {
+        				player1HandRank = 9;
+        				player1BestFive = p1StraightFlush.getBestFive();
+        			}
+        		}
+        	}
         }
-        if (royalFlush(player2Full).getHandClassification() == classification.ROYALFLUSH) {
-            player2HandRank = 10;
-            player2BestFive = royalFlush(player2Full).getBestFive();
-        } else if (straightFlush(player2Full).getHandClassification() == classification.STRAIGHTFLUSH) {
-            player2HandRank = 9;
-            player2BestFive = straightFlush(player2Full).getBestFive();
-        } else if (quads(player2Full).getHandClassification() == classification.QUADS) {
-            player2HandRank = 8;
-            player2BestFive = quads(player2Full).getBestFive();
-        } else if (fullHouse(player2Full).getHandClassification() == classification.FULLHOUSE) {
-            player2HandRank = 7;
-            player2BestFive = fullHouse(player2Full).getBestFive();
-        } else if (flush(player2Full).getHandClassification() == classification.FLUSH) {
-            player2HandRank = 6;
-            player2BestFive = flush(player2Full).getBestFive();
-        } else if (straight(player2Full).getHandClassification() == classification.STRAIGHT) {
-            player2HandRank = 5;
-            player2BestFive = straight(player2Full).getBestFive();
-        } else if (trips(player2Full).getHandClassification() == classification.TRIPS) {
-            player2HandRank = 4;
-            player2BestFive = trips(player2Full).getBestFive();
-        } else if (twoPair(player2Full).getHandClassification() == classification.TWOPAIR) {
-            player2HandRank = 3;
-            player2BestFive = twoPair(player2Full).getBestFive();
-        } else if (pair(player2Full).getHandClassification() == classification.PAIR) {
-            player2HandRank = 2;
-            player2BestFive = pair(player2Full).getBestFive();
-        } else if (highCard(player2Full).getHandClassification() == classification.HIGHCARD) {
-            player2HandRank = 1;
-            player2BestFive = highCard(player2Full).getBestFive();
+        checkResult p1Pair = pair(player1Full);
+        if (p1Pair.getHandClassification() && player1HandRank != 10 && player1HandRank != 9) {
+        	checkResult p1Trips = trips(player1Full);
+        	if (p1Trips.getHandClassification()) {
+        		checkResult p1Quads = quads(player1Full);
+        		if (p1Quads.getHandClassification()) {
+        			player1HandRank = 8;
+        			player1BestFive = quads(player1Full).getBestFive();
+        		} else {
+        			checkResult p1FullHouse = fullHouse(player1Full);
+        			if (p1FullHouse.getHandClassification()) {
+        				player1HandRank = 7;
+        				player1BestFive = p1FullHouse.getBestFive();	
+        			} else if (player1HandRank < 4){
+        				player1HandRank = 4;
+        				player1BestFive = p1Trips.getBestFive();
+        			}
+        		}
+        		
+        	} else {
+        		checkResult p1TwoPair = twoPair(player1Full);
+        		if (p1TwoPair.getHandClassification() && player1HandRank < 3) {
+        			player1HandRank = 3;
+        			player1BestFive = p1TwoPair.getBestFive();
+        		} else if (player1HandRank < 2) {
+        			player1HandRank = 2;
+        			player1BestFive = p1Pair.getBestFive();
+        		}
+        	}
         }
+        if (p1Flush.getHandClassification() && player1HandRank < 6) {
+        	player1HandRank = 6;
+        	player1BestFive = p1Flush.getBestFive();
+        } else if (p1Straight.getHandClassification() && player1HandRank < 5) {
+        	player1HandRank = 5;
+        	player1BestFive = p1Straight.getBestFive();
+        } else if (player1HandRank == -1) {
+        	player1HandRank = 1;
+        	player1BestFive = highCard(player1Full).getBestFive();
+        }
+        
+        checkResult p2Flush = flush(player2Full);
+        checkResult p2Straight = straight(player2Full);
+        if (p2Flush.getHandClassification()) {
+        	if (p2Straight.getHandClassification()) {
+        		checkResult p2StraightFlush = straightFlush(player2Full);
+        		if (p2StraightFlush.getHandClassification()) {
+        			if (p2StraightFlush.getBestFive().get(4).getIndexNumber() == 12) {
+        				player2HandRank = 10;
+        				player2BestFive = p2StraightFlush.getBestFive();
+        			} else {
+        				player2HandRank = 9;
+        				player2BestFive = p2StraightFlush.getBestFive();
+        			}
+        		}
+        	}
+        }
+        checkResult p2Pair = pair(player2Full);
+        if (p2Pair.getHandClassification() && player2HandRank != 10 && player2HandRank != 9) {
+        	checkResult p2Trips = trips(player2Full);
+        	if (p2Trips.getHandClassification()) {
+        		checkResult p2Quads = quads(player2Full);
+        		if (p2Quads.getHandClassification()) {
+        			player2HandRank = 8;
+        			player2BestFive = quads(player2Full).getBestFive();
+        		} else {
+        			checkResult p2FullHouse = fullHouse(player2Full);
+        			if (p2FullHouse.getHandClassification()) {
+        				player2HandRank = 7;
+        				player2BestFive = p2FullHouse.getBestFive();	
+        			} else if (player2HandRank < 4){
+        				player2HandRank = 4;
+        				player2BestFive = p2Trips.getBestFive();
+        			}
+        		}
+        		
+        	} else {
+        		checkResult p2TwoPair = twoPair(player2Full);
+        		if (p2TwoPair.getHandClassification() && player2HandRank < 3) {
+        			player2HandRank = 3;
+        			player2BestFive = p2TwoPair.getBestFive();
+        		} else if (player2HandRank < 2) {
+        			player2HandRank = 2;
+        			player2BestFive = p2Pair.getBestFive();
+        		}
+        	}
+        }
+        if (p2Flush.getHandClassification() && player2HandRank < 6) {
+        	player2HandRank = 6;
+        	player2BestFive = p2Flush.getBestFive();
+        } else if (p2Straight.getHandClassification() && player2HandRank < 5) {
+        	player2HandRank = 5;
+        	player2BestFive = p2Straight.getBestFive();
+        } else if (player2HandRank == -1) {
+        	player2HandRank = 1;
+        	player2BestFive = highCard(player2Full).getBestFive();
+        }
+        
         if (player1HandRank > player2HandRank) {
             switch (player1HandRank) {
             case 10:
@@ -448,6 +498,7 @@ public class HandOperations {
             System.out.println(pair1 + " \tPAIR\t" + pair2);
             System.out.println(hc1 + " \tHC\t" + hc2);
         }
+        
     }
 
 
@@ -459,13 +510,13 @@ public class HandOperations {
      */
     public static checkResult royalFlush(Card[] seven) {
         //If the seven card hard is a straight flush
-        if (straightFlush(seven).getHandClassification() == classification.STRAIGHTFLUSH) {
+        if (straightFlush(seven).getHandClassification()) {
             // and if it is straight flush Ace high
             if (straightFlush(seven).getBestFive().get(4).getIndexNumber() == 12) {
-                return new checkResult(straightFlush(seven).getBestFive(), classification.ROYALFLUSH);
+                return new checkResult(straightFlush(seven).getBestFive(), true);
             }
         }
-        return new checkResult(null, null);
+        return new checkResult();
     }
 
     /**
@@ -546,7 +597,7 @@ public class HandOperations {
                 highest = -1;
             }
             // returns flush
-            return new checkResult(b5, classification.FLUSH);
+            return new checkResult(b5, true);
         }
         // if there is no flush it returns null
         return new checkResult();
@@ -630,7 +681,7 @@ public class HandOperations {
         }
         // if there was a straight found
         if (build.size() > 0) {
-            return new checkResult(build, classification.STRAIGHT);
+            return new checkResult(build, true);
         }
         // else it returns null
         return new checkResult();
@@ -652,7 +703,7 @@ public class HandOperations {
         build.add(copy.get(3));
         build.add(copy.get(2));
         //returns highcard with the best 5 cards
-        return new checkResult(build, classification.HIGHCARD);
+        return new checkResult(build, true);
     }
 
     public static checkResult fullHouse(Card[] seven) {
@@ -713,7 +764,7 @@ public class HandOperations {
             return new checkResult();
         }
         //returns fullhouse and the list of the cards in the fullhouse
-        return new checkResult(build, classification.FULLHOUSE);
+        return new checkResult(build, true);
     }
 
     public static checkResult twoPair(Card[] seven) {
@@ -786,7 +837,7 @@ public class HandOperations {
         }
         //adds highest remaining card
         build.add(copy.get(2));
-        return new checkResult(build, classification.TWOPAIR);
+        return new checkResult(build, true);
     }
 
 
@@ -831,7 +882,7 @@ public class HandOperations {
             copy.remove(index1);
             //adds highest remaining card
             build.add(copy.get(2));
-            return new checkResult(build, classification.QUADS);
+            return new checkResult(build, true);
         }
         // else returns null
         return new checkResult();
@@ -871,7 +922,7 @@ public class HandOperations {
             //adds highest 2 cards remaining to best five card list
             build.add(copy.get(3));
             build.add(copy.get(2));
-            return new checkResult(build, classification.TRIPS);
+            return new checkResult(build, true);
         }
         // else returns null
         return new checkResult();
@@ -902,8 +953,8 @@ public class HandOperations {
             }
             //if there is a straight with the suited cards, the cards that compose the straight are returned as best five with
             // the classification of straight flush
-            if (straight(build).getHandClassification() == classification.STRAIGHT) {
-                return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
+            if (straight(build).getHandClassification()) {
+                return new checkResult(straight(build).getBestFive(), true);
             }
         }
         if (s > 4) {
@@ -915,8 +966,8 @@ public class HandOperations {
                     index++;
                 }
             }
-            if (straight(build).getHandClassification() == classification.STRAIGHT) {
-                return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
+            if (straight(build).getHandClassification()) {
+                return new checkResult(straight(build).getBestFive(), true);
             }
         }
         if (c > 4) {
@@ -928,8 +979,8 @@ public class HandOperations {
                     index++;
                 }
             }
-            if (straight(build).getHandClassification() == classification.STRAIGHT) {
-                return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
+            if (straight(build).getHandClassification()) {
+                return new checkResult(straight(build).getBestFive(), true);
             }
         }
         if (h > 4) {
@@ -941,8 +992,8 @@ public class HandOperations {
                     index++;
                 }
             }
-            if (straight(build).getHandClassification() == classification.STRAIGHT) {
-                return new checkResult(straight(build).getBestFive(), classification.STRAIGHTFLUSH);
+            if (straight(build).getHandClassification()) {
+                return new checkResult(straight(build).getBestFive(), true);
             }
         }
         //returns null if no straight flush is found
@@ -977,7 +1028,7 @@ public class HandOperations {
             build.add(copy.get(4));
             build.add(copy.get(3));
             build.add(copy.get(2));
-            return new checkResult(build, classification.PAIR);
+            return new checkResult(build, true);
         }
         return new checkResult();
     }

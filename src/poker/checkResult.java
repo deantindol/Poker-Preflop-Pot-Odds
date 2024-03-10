@@ -12,16 +12,16 @@ import java.util.ArrayList;
  */
 public class checkResult {
     private ArrayList<Card> bestFive;
-    protected classification handClassification;
+    protected boolean isHand;
 
     /**
      * Constructor for a {@code checkResult} object.
      * @param five the ArrayList<{@code Card}> containing the best five cards.
      * @param c the classification enumeration.
      */
-    public checkResult(ArrayList<Card> five, classification c) {
+    public checkResult(ArrayList<Card> five, boolean b) {
         bestFive = five;
-        handClassification = c;
+        isHand = b;
     }
 
     /**
@@ -36,8 +36,8 @@ public class checkResult {
      * Returns the classification of the hand rank check.
      * @return the classification of the hand rank check.
      */
-    public classification getHandClassification() {
-        return handClassification;
+    public boolean getHandClassification() {
+        return isHand;
     }
 
     /**
@@ -46,7 +46,7 @@ public class checkResult {
      * @return the String representation of the hand rank check.
      */
     public String toString() {
-        String build = handClassification + ":\n";
+        String build = isHand + ":\n";
         for (Card x : bestFive) {
             build += x.toString() + "\n";
         }
@@ -58,22 +58,8 @@ public class checkResult {
      */
     public checkResult() {
         bestFive = null;
-        handClassification = null;
+        isHand = false;
     }
 
-    /**
-     * Enumeration for hand ranks.
-     */
-    protected enum classification {
-        HIGHCARD,
-        PAIR,
-        TWOPAIR,
-        TRIPS,
-        STRAIGHT,
-        FLUSH,
-        FULLHOUSE,
-        QUADS,
-        STRAIGHTFLUSH,
-        ROYALFLUSH;
-    }
+    
 }
