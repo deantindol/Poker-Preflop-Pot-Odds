@@ -1,12 +1,11 @@
 package poker;
 
 import java.util.*;
+import java.text.NumberFormat;
 
 public class HandOperations {
     static Vector<Vector<Integer>> ans = new Vector<Vector<Integer>>();
     static Vector<Integer> tmp = new Vector<Integer>();
-
-    static String pushTest = "";
 
     static int p1Wins;
     static int p2Wins;
@@ -486,17 +485,40 @@ public class HandOperations {
         System.out.println("%");
 
         if (longOutput) {
-            System.out.println("P1\t:\tP2");
-            System.out.println(rf1 + " \tRF\t " + rf2);
-            System.out.println(sf1 + " \tSF\t" + sf2);
-            System.out.println(q1 + " \tQ \t" + q2);
-            System.out.println(fh1 + " \tFH\t" + fh2);
-            System.out.println(f1 + " \tF\t" + f2);
-            System.out.println(s1 + " \tS\t" + s2);
-            System.out.println(t1 + " \tT\t" + t2);
-            System.out.println(tp1 + " \tTP\t" + tp2);
-            System.out.println(pair1 + " \tPAIR\t" + pair2);
-            System.out.println(hc1 + " \tHC\t" + hc2);
+        	System.out.println("Player 1 winning hand breakdown: ");
+            System.out.println("Royal Flush:\t"+ NumberFormat.getNumberInstance(Locale.US).format(rf1));
+            System.out.println("Straight Flush:\t"+ NumberFormat.getNumberInstance(Locale.US).format(sf1));       
+            System.out.println("Quads:\t\t"+ NumberFormat.getNumberInstance(Locale.US).format(q1));       
+            System.out.println("Full House:\t"+ NumberFormat.getNumberInstance(Locale.US).format(fh1));       
+            System.out.println("Flush:\t\t"+ NumberFormat.getNumberInstance(Locale.US).format(f1));       
+            System.out.println("Straight:\t"+ NumberFormat.getNumberInstance(Locale.US).format(s1));       
+            System.out.println("Trips:\t\t"+ NumberFormat.getNumberInstance(Locale.US).format(t1));   
+            System.out.println("Two Pair:\t"+ NumberFormat.getNumberInstance(Locale.US).format(tp1));
+            System.out.println("Pair:\t\t"+ NumberFormat.getNumberInstance(Locale.US).format(pair1)); 
+            System.out.println("High Card:\t"+ NumberFormat.getNumberInstance(Locale.US).format(hc1));
+            System.out.println();
+            System.out.println("Player 2 winning hand breakdown: ");
+            System.out.println("Royal Flush:\t"+ NumberFormat.getNumberInstance(Locale.US).format(rf2));
+            System.out.println("Straight Flush:\t"+ NumberFormat.getNumberInstance(Locale.US).format(sf2));       
+            System.out.println("Quads:\t\t"+ NumberFormat.getNumberInstance(Locale.US).format(q2));       
+            System.out.println("Full House:\t"+ NumberFormat.getNumberInstance(Locale.US).format(fh2));       
+            System.out.println("Flush:\t\t"+ NumberFormat.getNumberInstance(Locale.US).format(f2));       
+            System.out.println("Straight:\t"+ NumberFormat.getNumberInstance(Locale.US).format(s2));       
+            System.out.println("Trips:\t\t"+ NumberFormat.getNumberInstance(Locale.US).format(t2));   
+            System.out.println("Two Pair:\t"+ NumberFormat.getNumberInstance(Locale.US).format(tp2));
+            System.out.println("Pair:\t\t"+ NumberFormat.getNumberInstance(Locale.US).format(pair2)); 
+            System.out.println("High Card:\t"+ NumberFormat.getNumberInstance(Locale.US).format(hc2));
+            System.out.println();
+            
+
+
+
+
+
+            	
+            
+            
+
         }
         
     }
