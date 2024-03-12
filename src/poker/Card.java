@@ -4,7 +4,7 @@ package poker;
  * Represents a standard playing card. Holds information about the card's suit and rank.
  */
 public class Card {
-    //Number that represents a Card's rank. Index 0 is a 2 and index 12 is an ace.
+    //Number that represents a Card's rank. Index 0 is as 2 and index 12 is an ace.
     private int indexNumber;
     private String suit;
     //Index from one to 52. Used to be able to track known cards for deriving odds.

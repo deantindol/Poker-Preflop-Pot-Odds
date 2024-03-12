@@ -12,6 +12,9 @@ public class HandOperations {
     static int pushes;
     static Card[] p1 ;
     static Card[] p2 ;
+    static Card[] tableCards;
+    
+   
 
     //ArrayList of the indicies of the unknown cards from 1-52.
     //Does not contain the four cards held by players.
@@ -380,17 +383,35 @@ public class HandOperations {
     * modified version of this algo that prints every n choose k combo
     * from https://www.geeksforgeeks.org/make-combinations-size-k/
     */
-    static void makeCombiUtil(int n, int left, int k) {
+    static void makeCombiUtil(int n, int left, int k, int numKnownTabCards) {
         // Pushing this vector to a vector of vector
         if (k == 0) {
             ans.add(tmp);
+            Card[] tab = new Card[5];
+            if (numKnownTabCards == 0) {
+            	Card one = possibleTableCards.get(tmp.get(0) - 1);
+                Card two = possibleTableCards.get(tmp.get(1) - 1);
+                Card three = possibleTableCards.get(tmp.get(2) - 1);
+                Card four = possibleTableCards.get(tmp.get(3) - 1);
+                Card five = possibleTableCards.get(tmp.get(4) - 1);
+                tab[0] = one; tab[1] = two; tab[2] = three; tab[3]=four; tab[4] = five;
+            } else if (numKnownTabCards == 3) {
+            	Card one = tableCards[0];
+            	Card two = tableCards[1];
+            	Card three = tableCards[2];
+            	Card four = possibleTableCards.get(tmp.get(0) - 1);
+                Card five = possibleTableCards.get(tmp.get(1) - 1);
+                tab[0] = one; tab[1] = two; tab[2] = three; tab[3]=four; tab[4] = five;
+            } else if (numKnownTabCards == 4) {
+            	Card one = tableCards[0];
+            	Card two = tableCards[1];
+            	Card three = tableCards[2];
+            	Card four = tableCards[3];
+            	Card five = possibleTableCards.get(tmp.get(0) - 1);
+                tab[0] = one; tab[1] = two; tab[2] = three; tab[3]=four; tab[4] = five;
 
-            Card one = possibleTableCards.get(tmp.get(0) - 1);
-            Card two = possibleTableCards.get(tmp.get(1) - 1);
-            Card three = possibleTableCards.get(tmp.get(2) - 1);
-            Card four = possibleTableCards.get(tmp.get(3) - 1);
-            Card five = possibleTableCards.get(tmp.get(4) - 1);
-            Card[] tab = {one, two, three, four, five};
+            }
+            
             int res = whoWins(p1, p2, tab);
             if (res == 3) {
                 pushes++;
@@ -448,21 +469,22 @@ public class HandOperations {
         // left will be 1
         for (int i = left; i <= n; ++i) {
             tmp.add(i);
-            makeCombiUtil(n, i + 1, k - 1);
+            makeCombiUtil(n, i + 1, k - 1, numKnownTabCards);
             // Popping out last inserted element
             // from the vector
             tmp.remove(tmp.size() - 1);
         }
     }
 
-    static Vector<Vector<Integer>> makeCombiN(int n, int k) {
-        makeCombiUtil(n, 1, k);
+    static Vector<Vector<Integer>> makeCombiN(int n, int k, int numKnown) {
+        makeCombiUtil(n, 1, k, numKnown);
         return ans;
     }
 
-    public static void onevone (Card[] pl1, Card[] pl2, boolean longOutput) {
+    public static void onevone (Card[] pl1, Card[] pl2, boolean longOutput, Card[] tabe) {
         p1 = pl1;
         p2 = pl2;
+        tableCards = tabe;
         for (int i = 1; i < 53; i++) {
             fe.add(i);
         }
@@ -470,18 +492,33 @@ public class HandOperations {
         fe.remove(fe.indexOf(pl1[1].getoft()) );
         fe.remove(fe.indexOf(pl2[0].getoft()) );
         fe.remove(fe.indexOf(pl2[1].getoft()) );
+      
+        for (int i = 0; i < tabe.length; i++) {
+        	fe.remove(fe.indexOf(tabe[i].getoft()) );
+        }
+        
         for (int x : fe) {
             possibleTableCards.add(new Card(x));
         }
-        makeCombiN(48,5);
+        double nChooseK = Double.NaN;
+        if (tabe.length == 0) {
+        	nChooseK = 1712304;
+        } else if (tabe.length == 3) {
+        	nChooseK = 990;
+        } else if (tabe.length == 4) {
+        	nChooseK = 44;
+        }
+        makeCombiN(48 - tabe.length,5 - tabe.length,tabe.length);
+        
+     
         System.out.print("Player one wins: ");
-        System.out.printf("%.2f", ((double)p1Wins / 1712304) * 100);
+        System.out.printf("%.2f", ((double)p1Wins / nChooseK) * 100);
         System.out.println("%");
         System.out.print("Player two wins: ");
-        System.out.printf("%.2f", ((double)p2Wins / 1712304) * 100);
+        System.out.printf("%.2f", ((double)p2Wins / nChooseK) * 100);
         System.out.println("%");
         System.out.print("Pushes: ");
-        System.out.printf("%.2f", ((double)pushes / 1712304) * 100);
+        System.out.printf("%.2f", ((double)pushes / nChooseK) * 100);
         System.out.println("%");
 
         if (longOutput) {
@@ -511,12 +548,6 @@ public class HandOperations {
             System.out.println();
             
 
-
-
-
-
-            	
-            
             
 
         }
